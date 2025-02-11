@@ -1,9 +1,20 @@
+import Footer from "./Footer";
+import Header from "./Header";
+import PropTypes from 'prop-types';
 
 
-function PageContent() {
+export default function PageContent({ children }) {
   return (
-    <div>PageContent</div>
+    <>
+    <Header/>
+    <div className="page-content">
+      {children}
+    </div>
+    <Footer/>
+    </>
   )
 }
 
-export default PageContent
+PageContent.propTypes = {
+  children: PropTypes.node.isRequired,
+}; 

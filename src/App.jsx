@@ -1,13 +1,13 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import './App.css'
-import Header from "./layout/Header";
+import './App.css';
+import PageContent from "./layout/PageContent";
 
 function App() {
 
 
   return (
     <Router>
-      <Header />
+      <PageContent />
       <Switch>
         <Route />
       </Switch>
