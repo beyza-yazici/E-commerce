@@ -13,8 +13,8 @@ function Header() {
 
   const actionItems = [
     { icon: <Search size={20} />, path: "#" },
-    { icon: <ShoppingCart size={20} />, path: "#", badge: 0 },
-    { icon: <Heart size={20} />, path: "#", badge: 0 },
+    { icon: <ShoppingCart size={20} />, path: "#", badge: 0 }, // TODO: Update the badge value
+    { icon: <Heart size={20} />, path: "#", badge: 0 }, // TODO: Update the badge value
   ];
 
   return (
@@ -49,30 +49,6 @@ function Header() {
               )}
             </Link>
           ))}
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-        <div className="relative">
-          <img
-            src="https://picsum.photos/seed/picsum/700/500"
-            alt="Left Banner"
-            className="w-full h-auto object-cover"
-          />
-          <div className="absolute top-10 left-10 text-white">
-            <h2 className="text-lg font-bold">SUMMER 2020</h2>
-            <h1 className="text-3xl font-extrabold">Multicoloured Tie-dye Sweater</h1>
-            <p className="text-sm mt-2">We know how large objects will act.</p>
-            <button className="mt-4 px-4 py-2 bg-white text-black font-bold">SHOP NOW</button>
-          </div>
-        </div>
-
-        <div>
-          <img
-            src="https://picsum.photos/seed/picsum/700/500"
-            alt="Right Banner"
-            className="w-full h-auto object-cover"
-          />
         </div>
       </div>
     </header>

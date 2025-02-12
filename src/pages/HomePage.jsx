@@ -1,8 +1,14 @@
 import { Link } from "react-router-dom";
+import Slider from "../components/Slider";
+
 
 function HomePage() {
   return (
     <div className="flex flex-col gap-12">
+      {/* Slider Section */}
+      <section className="w-full">
+        <Slider />
+      </section>
 
       {/* Editor's Pick */}
       <section className="text-center">
@@ -68,7 +74,6 @@ function HomePage() {
           ))}
         </div>
       </section>
-
     </div>
   );
 }
