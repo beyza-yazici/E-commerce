@@ -1,17 +1,18 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import './App.css';
 import PageContent from "./layout/PageContent";
+import HomePage from "./pages/HomePage";
 
 function App() {
 
 
   return (
     <Router>
-      <PageContent />
-      
+      <PageContent> 
       <Switch>
-        <Route />
+        <Route exact path="/" component={HomePage} />
       </Switch>
+      </PageContent> 
     </Router>
   )
 }
