@@ -1,0 +1,22 @@
+{
+  "bannerData": [
+    {
+      "id": 1,
+      "subtitle": "SUMMER 2020",
+      "title": "Vita Classic Product",
+      "description": "We know how large objects will act. We know how are objects will act. We know",
+      "price": "$16.48",
+      "buttonText": "ADD TO CART",
+      "image": "/path-to-man-in-white-image.jpg"
+    },
+    {
+      "id": 2,
+      "subtitle": "WINTER 2020",
+      "title": "New Classic Product",
+      "description": "We know how large objects will act. We know how are objects will act. We know",
+      "price": "$18.48",
+      "buttonText": "ADD TO CART",
+      "image": "/path-to-another-banner-image.jpg"
+    }
+  ]
+}

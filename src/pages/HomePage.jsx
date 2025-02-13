@@ -1,78 +1,181 @@
-import { Link } from "react-router-dom";
-import Slider from "../components/Slider";
-
+import HeroSlider from "../components/HeroSlider";
+import BannerSlider from "../components/BannerSlider";
 
 function HomePage() {
   return (
     <div className="flex flex-col gap-12">
-      {/* Slider Section */}
+      {/* Hero Slider Section */}
       <section className="w-full">
-        <Slider />
+        <HeroSlider height="600px" variant="default" />
       </section>
 
       {/* Editor's Pick */}
-      <section className="text-center">
-        <h2 className="text-xl font-bold">EDITOR&apos;S PICK</h2>
-        <p className="text-gray-500">Problems trying to resolve the conflict between</p>
-        <div className="flex justify-center gap-4 mt-6">
-          <div className="flex flex-col items-center">
-            <img src="https://picsum.photos/seed/men/200/300" alt="Men" />
-            <Link to="#" className="font-bold">MEN</Link>
-          </div>
-          <div className="flex flex-col items-center">
-            <img src="https://picsum.photos/seed/women/200/300" alt="Women" />
-            <Link to="#" className="font-bold">WOMEN</Link>
-          </div>
-          <div className="flex flex-col items-center">
-            <img src="https://picsum.photos/seed/accessories/200/300" alt="Accessories" />
-            <Link to="#" className="font-bold">ACCESSORIES</Link>
-          </div>
+      <section className="container mx-auto px-4">
+  <div className="text-center mb-8">
+    <h2 className="text-2xl font-bold">EDITOR&apos;S PICK</h2>
+    <p className="text-gray-500">Problems trying to resolve the conflict between</p>
+  </div>
+  
+  
+  <div className="flex gap-5">
+    {/* Sol taraf - MEN */}
+    <div className="w-[32%] h-[500px] relative">
+      <img 
+        src="https://images.pexels.com/photos/839011/pexels-photo-839011.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" 
+        alt="Men" 
+        className="w-full h-full object-cover"
+      />
+      <div className="absolute bottom-[30px] left-[30px] bg-white px-[40px] py-[15px]">
+        <h3 className="font-bold">MEN</h3>
+      </div>
+    </div>
+
+    {/* Orta - WOMEN */}
+    <div className="w-[32%] h-[500px] relative">
+      <img 
+        src="https://images.pexels.com/photos/1036622/pexels-photo-1036622.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" 
+        alt="Women" 
+        className="w-full h-full object-cover"
+      />
+      <div className="absolute bottom-[30px] left-[30px] bg-white px-[40px] py-[15px]">
+        <h3 className="font-bold">WOMEN</h3>
+      </div>
+    </div>
+
+    {/* Sağ taraf - ACCESSORIES ve KIDS */}
+    <div className="w-[32%] flex flex-col gap-5">
+      <div className="h-[242px] relative">
+        <img 
+          src="https://images.pexels.com/photos/9421332/pexels-photo-9421332.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" 
+          alt="Accessories" 
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute bottom-[30px] left-[30px] bg-white px-[40px] py-[15px]">
+          <h3 className="font-bold">ACCESSORIES</h3>
         </div>
-      </section>
+      </div>
+
+      <div className="h-[242px] relative">
+        <img 
+          src="https://images.pexels.com/photos/1416736/pexels-photo-1416736.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" 
+          alt="Kids" 
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute bottom-[30px] left-[30px] bg-white px-[40px] py-[15px]">
+          <h3 className="font-bold">KIDS</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* Bestseller Products */}
-      <section className="text-center">
-        <h2 className="text-xl font-bold">BESTSELLER PRODUCTS</h2>
-        <p className="text-gray-500">Problems trying to resolve the conflict between</p>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-          {[...Array(8)].map((_, index) => (
-            <div key={index} className="flex flex-col items-center">
-              <img src={`https://picsum.photos/seed/product${index}/200/300`} alt="Product" />
-              <p className="font-bold">Graphic Design</p>
-              <p className="text-gray-500">English Department</p>
-              <span className="text-green-600">$16.48</span>
-            </div>
-          ))}
+<section className="container mx-auto px-4">
+  <div className="text-center mb-8">
+    <p className="text-gray-500 text-sm">Featured Products</p>
+    <h2 className="text-2xl font-bold">BESTSELLER PRODUCTS</h2>
+    <p className="text-gray-500">Problems trying to resolve the conflict between</p>
+  </div>
+
+  <div className="flex flex-wrap gap-8 justify-center">
+    {[
+      {
+        image: "https://images.pexels.com/photos/18049026/pexels-photo-18049026/free-photo-of-kadin-kot-ayakta-bluz.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        title: "Graphic Design",
+        department: "English Department",
+        oldPrice: "$16.48",
+        newPrice: "$6.48",
+        colors: ["bg-blue-500", "bg-green-500", "bg-orange-500", "bg-black"]
+      },
+      {
+        image: "https://images.pexels.com/photos/2955375/pexels-photo-2955375.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        title: "Graphic Design",
+        department: "English Department",
+        oldPrice: "$16.48",
+        newPrice: "$6.48",
+        colors: ["bg-blue-500", "bg-green-500", "bg-orange-500", "bg-black"]
+      },
+      {
+        image: "https://images.pexels.com/photos/2922301/pexels-photo-2922301.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        title: "Graphic Design",
+        department: "English Department",
+        oldPrice: "$16.48",
+        newPrice: "$6.48",
+        colors: ["bg-blue-500", "bg-green-500", "bg-orange-500", "bg-black"]
+      },
+      {
+        image: "https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        title: "Graphic Design",
+        department: "English Department",
+        oldPrice: "$16.48",
+        newPrice: "$6.48",
+        colors: ["bg-blue-500", "bg-green-500", "bg-orange-500", "bg-black"]
+      },
+      {
+        image: "https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        title: "Graphic Design",
+        department: "English Department",
+        oldPrice: "$16.48",
+        newPrice: "$6.48",
+        colors: ["bg-blue-500", "bg-green-500", "bg-orange-500", "bg-black"]
+      },
+      {
+        image: "https://images.pexels.com/photos/2584269/pexels-photo-2584269.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        title: "Graphic Design",
+        department: "English Department",
+        oldPrice: "$16.48",
+        newPrice: "$6.48",
+        colors: ["bg-blue-500", "bg-green-500", "bg-orange-500", "bg-black"]
+      },
+      {
+        image: "https://images.pexels.com/photos/2681751/pexels-photo-2681751.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        title: "Graphic Design",
+        department: "English Department",
+        oldPrice: "$16.48",
+        newPrice: "$6.48",
+        colors: ["bg-blue-500", "bg-green-500", "bg-orange-500", "bg-black"]
+      },
+      {
+        image: "https://images.pexels.com/photos/1040424/pexels-photo-1040424.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        title: "Graphic Design",
+        department: "English Department",
+        oldPrice: "$16.48",
+        newPrice: "$6.48",
+        colors: ["bg-blue-500", "bg-green-500", "bg-orange-500", "bg-black"]
+      }
+    ].map((product, index) => (
+      <div key={index} className="flex flex-col w-[280px]">
+        <div className="relative h-[400px] bg-gray-100">
+          <img 
+            src={product.image} 
+            alt={product.title} 
+            className="w-full h-full object-cover"
+          />
         </div>
-      </section>
+        <div className="mt-4 text-center">
+          <h3 className="font-bold text-base">{product.title}</h3>
+          <p className="text-gray-500 text-sm">{product.department}</p>
+          <div className="mt-2">
+            <span className="text-gray-500 line-through mr-2">{product.oldPrice}</span>
+            <span className="text-[#23856D] font-bold">{product.newPrice}</span>
+          </div>
+          <div className="flex gap-2 justify-center mt-2">
+            {product.colors.map((color, idx) => (
+              <div 
+                key={idx} 
+                className={`w-4 h-4 rounded-full ${color}`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
 
       {/* Green Banner Section */}
-      <section className="relative flex items-center justify-between bg-green-700 text-white p-10">
-        <div>
-          <h2 className="text-xl font-bold">SUMMER 2020</h2>
-          <h1 className="text-3xl font-extrabold">Vita Classic Product</h1>
-          <p className="text-sm mt-2">We know how large objects will act, but things on a small scale.</p>
-          <button className="mt-4 px-4 py-2 bg-white text-black font-bold">ADD TO CART</button>
-        </div>
-        <img src="https://picsum.photos/seed/banner/400/300" alt="Product Banner" className="w-1/3" />
-      </section>
-
-      {/* Featured Posts */}
-      <section className="text-center">
-        <h2 className="text-xl font-bold">Featured Posts</h2>
-        <p className="text-gray-500">Problems trying to resolve the conflict between</p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-          {[...Array(3)].map((_, index) => (
-            <div key={index} className="border rounded-lg overflow-hidden">
-              <img src={`https://picsum.photos/seed/blog${index}/400/250`} alt="Blog Post" />
-              <div className="p-4">
-                <p className="font-bold">Loudest à la Madison #1</p>
-                <p className="text-gray-500 text-sm">English Department</p>
-                <Link to="#" className="text-blue-500">Learn More</Link>
-              </div>
-            </div>
-          ))}
-        </div>
+      <section className="w-full">
+        <BannerSlider />
       </section>
     </div>
   );
