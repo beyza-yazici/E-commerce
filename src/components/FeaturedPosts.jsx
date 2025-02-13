@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Calendar, MessageSquare, ChevronRight } from 'lucide-react';
 
-const posts = [
+const products = [
   {
     id: 1,
     image: "https://images.pexels.com/photos/18676295/pexels-photo-18676295/free-photo-of-kent-sehir-kent-simgesi-gorulecek-yer.jpeg?auto=compress&cs=tinysrgb&w=600",
@@ -35,6 +35,7 @@ const posts = [
 ];
 
 const FeaturedPosts = () => {
+  
     return (
       <section className="container mx-auto px-4 py-12">
 
@@ -47,7 +48,7 @@ const FeaturedPosts = () => {
           </p>
         </div>
         <div className="flex flex-wrap justify-center gap-8">
-          {posts.map((post) => (
+          {products.map((post) => (
             <div key={post.id} className="flex-1 min-w-[300px] max-w-[350px] bg-white rounded-lg overflow-hidden shadow-lg">
              
               <div className="relative h-[300px]"> 

@@ -3,6 +3,7 @@ import BannerSlider from "../components/BannerSlider";
 import FeaturedSection from "../components/FeaturedSection";
 import FeaturedPosts from "../components/FeaturedPosts";
 
+
 function HomePage() {
   return (
     <div className="flex flex-col gap-12">
@@ -232,6 +233,7 @@ function HomePage() {
 
       {/* Featured Posts */}
       <FeaturedPosts />
+     
     </div>
   );
 }
