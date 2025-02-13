@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { Facebook, Instagram, Twitter } from "lucide-react";
-import { useEffect, useState } from "react";
 
 const iconMap = {
   Facebook: <Facebook className="w-5 h-5 text-blue-600" />,
@@ -8,17 +7,49 @@ const iconMap = {
   Twitter: <Twitter className="w-5 h-5 text-blue-400" />
 };
 
+const footerData = {
+  "sections": [
+    {
+      "title": "Company Info",
+      "links": [
+        { "text": "About Us", "href": "/about" },
+        { "text": "Career", "href": "/career" },
+        { "text": "We are hiring", "href": "/hiring" },
+        { "text": "Blog", "href": "/blog" }
+      ]
+    },
+    {
+      "title": "Features",
+      "links": [
+        { "text": "Business Marketing", "href": "/marketing" },
+        { "text": "User Analytic", "href": "/analytic" },
+        { "text": "Live Chat", "href": "/support" },
+        { "text": "Unlimited Support", "href": "/support" }
+      ]
+    },
+    {
+      "title": "Resources",
+      "links": [
+        { "text": "IOS & Android", "href": "/ios-android" },
+        { "text": "Watch a Demo", "href": "/demo" },
+        { "text": "Customers", "href": "/customers" },
+        { "text": "API", "href": "/api" }
+      ]
+    }
+  ],
+  "social": {
+    "title": "Get In Touch",
+    "description": "the quick fox jumps over the lazy dog",
+    "links": [
+      { "href": "https://facebook.com", "icon": "Facebook" },
+      { "href": "https://instagram.com", "icon": "Instagram" },
+      { "href": "https://twitter.com", "icon": "Twitter" }
+    ]
+  },
+  "copyright": "Made With Love By Figmaland. All Rights Reserved."
+};
+
 export default function Footer() {
-  const [footerData, setFooterData] = useState(null);
-
-  useEffect(() => {
-    fetch("/data/footerData.json")
-      .then((res) => res.json())
-      .then((data) => setFooterData(data));
-  }, []);
-
-  if (!footerData) return <p>Loading...</p>;
-
   return (
     <footer className="bg-white text-gray-800 py-10">
       <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between space-y-6 md:space-y-0">
