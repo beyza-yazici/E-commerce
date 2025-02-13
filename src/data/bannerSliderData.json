@@ -7,7 +7,7 @@
       "description": "We know how large objects will act. We know how are objects will act. We know",
       "price": "$16.48",
       "buttonText": "ADD TO CART",
-      "image": "/path-to-man-in-white-image.jpg"
+      "image": "https://images.pexels.com/photos/994234/pexels-photo-994234.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
     },
     {
       "id": 2,
@@ -16,7 +16,7 @@
       "description": "We know how large objects will act. We know how are objects will act. We know",
       "price": "$18.48",
       "buttonText": "ADD TO CART",
-      "image": "/path-to-another-banner-image.jpg"
+      "image": "https://images.pexels.com/photos/974911/pexels-photo-974911.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
     }
   ]
 }

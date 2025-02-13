@@ -1,5 +1,7 @@
 import HeroSlider from "../components/HeroSlider";
 import BannerSlider from "../components/BannerSlider";
+import FeaturedSection from "../components/FeaturedSection";
+import FeaturedPosts from "../components/FeaturedPosts";
 
 function HomePage() {
   return (
@@ -177,6 +179,12 @@ function HomePage() {
       <section className="w-full">
         <BannerSlider />
       </section>
+
+       {/* Featured Section */}
+      <FeaturedSection />
+
+      {/* Featured Posts */}
+      <FeaturedPosts />
     </div>
   );
 }
