@@ -2,6 +2,7 @@ import HeroSlider from "../components/HeroSlider";
 import BannerSlider from "../components/BannerSlider";
 import FeaturedSection from "../components/FeaturedSection";
 import FeaturedPosts from "../components/FeaturedPosts";
+import { Link } from 'react-router-dom';
 
 
 function HomePage() {
@@ -21,7 +22,7 @@ function HomePage() {
   
   {/* Mobile Layout */}
   <div className="flex flex-col gap-4 md:hidden">
-    <div className="relative">
+    <Link to="/category/men" className="relative">
       <img 
         src="https://images.pexels.com/photos/839011/pexels-photo-839011.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" 
         alt="Men" 
@@ -30,9 +31,9 @@ function HomePage() {
       <div className="absolute bottom-[30px] left-[30px] bg-white px-[40px] py-[15px]">
         <h3 className="font-bold">MEN</h3>
       </div>
-    </div>
+    </Link>
 
-    <div className="relative">
+    <Link to="/category/men" className="relative">
       <img 
         src="https://images.pexels.com/photos/1036622/pexels-photo-1036622.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" 
         alt="Women" 
@@ -41,9 +42,9 @@ function HomePage() {
       <div className="absolute bottom-[30px] left-[30px] bg-white px-[40px] py-[15px]">
         <h3 className="font-bold">WOMEN</h3>
       </div>
-    </div>
+    </Link>
 
-    <div className="relative">
+    <Link to="/category/men" className="relative">
       <img 
         src="https://images.pexels.com/photos/9421332/pexels-photo-9421332.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" 
         alt="Accessories" 
@@ -52,9 +53,9 @@ function HomePage() {
       <div className="absolute bottom-[30px] left-[30px] bg-white px-[40px] py-[15px]">
         <h3 className="font-bold">ACCESSORIES</h3>
       </div>
-    </div>
+    </Link>
 
-    <div className="relative">
+    <Link to="/category/men" className="relative">
       <img 
         src="https://images.pexels.com/photos/1416736/pexels-photo-1416736.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" 
         alt="Kids" 
@@ -63,7 +64,7 @@ function HomePage() {
       <div className="absolute bottom-[30px] left-[30px] bg-white px-[40px] py-[15px]">
         <h3 className="font-bold">KIDS</h3>
       </div>
-    </div>
+    </Link>
   </div>
 
   {/* Desktop Layout */}
@@ -194,7 +195,7 @@ function HomePage() {
         colors: ["bg-blue-500", "bg-green-500", "bg-orange-500", "bg-black"]
       }
     ].map((product, index) => (
-      <div key={index} className="flex flex-col w-[280px]">
+      <Link to={`/product/${index + 1}`} key={index} className="flex flex-col w-[280px]">
         <div className="relative h-[400px] bg-gray-100">
           <img 
             src={product.image} 
@@ -218,7 +219,7 @@ function HomePage() {
             ))}
           </div>
         </div>
-      </div>
+      </Link>
     ))}
   </div>
 </section>

@@ -111,18 +111,18 @@ const Header = () => {
                 Home
               </Link>
               <Link 
-                to="/product" 
+                to="/about" 
                 className="text-lg hover:text-[#23A6F0] transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Product
+                About
               </Link>
               <Link 
-                to="/pricing" 
+                to="/blog" 
                 className="text-lg hover:text-[#23A6F0] transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Pricing
+                Blog
               </Link>
               <Link 
                 to="/contact" 
@@ -130,6 +130,13 @@ const Header = () => {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Contact
+              </Link>
+              <Link 
+                to="/pages" 
+                className="text-lg hover:text-[#23A6F0] transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Pages
               </Link>
             </div>
           </nav>
