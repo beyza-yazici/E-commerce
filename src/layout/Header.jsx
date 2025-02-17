@@ -10,6 +10,56 @@ const Header = () => {
   const [cartCount] = useState(0);
   const [wishlistCount] = useState(0);
 
+  const shopCategories = {
+    women: {
+      title: "Kadın",
+      items: [
+        { name: "Bags", path: "/shop/women/bags" },
+        { name: "Belts", path: "/shop/women/belts" },
+        { name: "Cosmetics", path: "/shop/women/cosmetics" },
+        { name: "Bags", path: "/shop/women/bags-2" },
+        { name: "Hats", path: "/shop/women/hats" },
+      ]
+    },
+    men: {
+      title: "Erkek",
+      items: [
+        { name: "Bags", path: "/shop/men/bags" },
+        { name: "Belts", path: "/shop/men/belts" },
+        { name: "Cosmetics", path: "/shop/men/cosmetics" },
+        { name: "Bags", path: "/shop/men/bags-2" },
+        { name: "Hats", path: "/shop/men/hats" },
+      ]
+    }
+  };
+
+  const ShopDropdown = () => (
+    <div className="absolute top-full left-0 bg-white shadow-lg rounded-md py-4 min-w-[400px] z-50">
+      <div className="flex">
+        {Object.values(shopCategories).map((category, index) => (
+          <div 
+            key={category.title} 
+            className={`flex-1 px-6 ${index !== 0 ? 'border-l' : ''}`}
+          >
+            <h3 className="font-bold text-lg mb-4">{category.title}</h3>
+            <div className="flex flex-col gap-3">
+              {category.items.map((item, itemIndex) => (
+                <Link
+                  key={`${item.name}-${itemIndex}`}
+                  to={item.path}
+                  className="text-gray-600 hover:text-[#23A6F0] transition-colors"
+                  onClick={() => setIsShopMenuOpen(false)}
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
   return (
     <header className="border-b">
       {/* Desktop Header */}
@@ -29,13 +79,7 @@ const Header = () => {
               <Link to="/shop" className="text-base hover:text-[#23A6F0] transition-colors">
                 Shop
               </Link>
-              {isShopMenuOpen && (
-                <div className="absolute top-full left-0 bg-white shadow-lg rounded-md py-2 min-w-[150px] z-50">
-                  <Link to="/shop/category1" className="block px-4 py-2 hover:bg-gray-50 text-base">Category 1</Link>
-                  <Link to="/shop/category2" className="block px-4 py-2 hover:bg-gray-50 text-base">Category 2</Link>
-                  <Link to="/shop/category3" className="block px-4 py-2 hover:bg-gray-50 text-base">Category 3</Link>
-                </div>
-              )}
+              {isShopMenuOpen && <ShopDropdown />}
             </div>
             <Link to="/about" className="text-base hover:text-[#23A6F0] transition-colors">About</Link>
             <Link to="/blog" className="text-base hover:text-[#23A6F0] transition-colors">Blog</Link>
@@ -49,7 +93,7 @@ const Header = () => {
             <User size={20} />
             <Link to="/login" className="text-base hover:underline">Login</Link>
             <span className="text-base">/</span>
-            <Link to="/register" className="text-base hover:underline">Register</Link>
+            <Link to="/signup" className="text-base hover:underline">Register</Link>
           </div>
           <div className="flex items-center gap-4">
             <Search size={20} className="cursor-pointer text-[#23A6F0]" />
@@ -115,29 +159,23 @@ const Header = () => {
                 className="text-lg hover:text-[#23A6F0] transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                About
+                Product
               </Link>
               <Link 
-                to="/blog" 
+                to="/product" 
                 className="text-lg hover:text-[#23A6F0] transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Blog
+                Pricing
               </Link>
               <Link 
-                to="/contact" 
+                to="/pricing" 
                 className="text-lg hover:text-[#23A6F0] transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Contact
               </Link>
-              <Link 
-                to="/pages" 
-                className="text-lg hover:text-[#23A6F0] transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Pages
-              </Link>
+             
             </div>
           </nav>
         )}
