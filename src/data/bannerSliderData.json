@@ -1,0 +1,20 @@
+{
+  "bannerData": [
+    {
+      "id": 1,
+      "title": "Vita Classic Product",
+      "subtitle": "SUMMER 2020",
+      "description": "We know how large objects will act. We know how are objects will act. We know",
+      "price": "$16.48",
+      "image": "https://images.pexels.com/photos/994234/pexels-photo-994234.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    },
+    {
+      "id": 2,
+      "title": "New Classic Product",
+      "subtitle": "WINTER 2020",
+      "description": "We know how large objects will act. We know how are objects will act. We know",
+      "price": "$18.48",
+      "image": "https://images.pexels.com/photos/974911/pexels-photo-974911.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    }
+  ]
+}
