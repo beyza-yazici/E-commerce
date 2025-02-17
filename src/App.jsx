@@ -3,6 +3,8 @@ import './App.css';
 import PageContent from "./layout/PageContent";
 import HomePage from "./pages/HomePage";
 import ShopPage from "./components/ShopPage";
+import SignupPage from "./pages/SignupPage";
+
 
 function App() {
 
@@ -11,6 +13,7 @@ function App() {
     <Router>
       <PageContent> 
       <Switch>
+        <Route path="/signup" component={SignupPage} />
         <Route exact path="/" component={HomePage} />
         <Route path="/shop" component={ShopPage} />
       </Switch>
