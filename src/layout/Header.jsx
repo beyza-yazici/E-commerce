@@ -7,7 +7,6 @@ import md5 from 'md5';
 
 const Header = () => {
   const user = useSelector(state => state.client.user);
-  console.log('Current user in header:', user); // Debug için
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isShopMenuOpen, setIsShopMenuOpen] = useState(false);
   const [cartCount] = useState(0);
@@ -61,6 +60,7 @@ const Header = () => {
       </div>
     )
   );
+
 
   return (
     <header className="border-b">
