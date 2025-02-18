@@ -7,6 +7,7 @@ import md5 from 'md5';
 
 const Header = () => {
   const user = useSelector(state => state.client.user);
+  console.log('Current user in header:', user); // Debug için
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isShopMenuOpen, setIsShopMenuOpen] = useState(false);
   const [cartCount] = useState(0);
@@ -42,7 +43,7 @@ const Header = () => {
   };
 
   const UserSection = () => (
-    user && user.email ? (
+    user ? (
       <div className="flex items-center gap-2">
         <img
           src={getGravatarUrl(user.email)}
@@ -230,24 +231,24 @@ const Header = () => {
               >
                 Pages
               </Link>
-              {!user && (
-                <>
-                  <Link 
-                    to="/login" 
-                    className="text-lg hover:text-[#23A6F0] transition-colors"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Login
-                  </Link>
-                  <Link 
-                    to="/signup" 
-                    className="text-lg hover:text-[#23A6F0] transition-colors"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Register
-                  </Link>
-                </>
-              )}
+              <div className="flex items-center gap-4">
+                {user ? (
+                    <div className="flex items-center gap-2">
+                        <img
+                            src={getGravatarUrl(user.email)}
+                            alt={user.name || 'User'}
+                            className="w-8 h-8 rounded-full"
+                        />
+                        <span className="text-gray-700">{user.name}</span>
+                    </div>
+                ) : (
+                    <div className="flex items-center gap-1">
+                        <Link to="/login">Login</Link>
+                        <span>/</span>
+                        <Link to="/signup">Register</Link>
+                    </div>
+                )}
+            </div>
             </div>
           </nav>
         )}
