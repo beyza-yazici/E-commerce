@@ -2,11 +2,14 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, Search, ShoppingCart, Heart, User } from 'lucide-react';
+import { useSelector } from 'react-redux';
+import md5 from 'md5';
 
 const Header = () => {
+  const user = useSelector(state => state.client.user);
+  console.log('Current user in header:', user); // Debug için
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isShopMenuOpen, setIsShopMenuOpen] = useState(false);
-  //TODO: Sepet ve favori sayılarını state olarak tutuyoruz
   const [cartCount] = useState(0);
   const [wishlistCount] = useState(0);
 
@@ -33,6 +36,32 @@ const Header = () => {
     }
   };
 
+
+  const getGravatarUrl = (email) => {
+    if (!email) return 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp';
+    const hash = md5(email.toLowerCase().trim());
+    return `https://www.gravatar.com/avatar/${hash}?d=mp`;
+  };
+
+  const UserSection = () => (
+    user ? (
+      <div className="flex items-center gap-2">
+        <img
+          src={getGravatarUrl(user.email)}
+          alt={user.name || 'User'}
+          className="w-8 h-8 rounded-full"
+        />
+        <span className="text-gray-700">{user.name || 'User'}</span>
+      </div>
+    ) : (
+      <div className="flex items-center gap-1 text-[#23A6F0]">
+        <User size={20} />
+        <Link to="/login" className="text-base hover:underline">Login</Link>
+        <span className="text-base">/</span>
+        <Link to="/signup" className="text-base hover:underline">Register</Link>
+      </div>
+    )
+
   const ShopDropdown = () => (
     <div className="absolute top-full left-0 bg-white shadow-lg rounded-md py-4 min-w-[400px] z-50">
       <div className="flex">
@@ -58,6 +87,7 @@ const Header = () => {
         ))}
       </div>
     </div>
+
   );
 
   return (
@@ -79,7 +109,36 @@ const Header = () => {
               <Link to="/shop" className="text-base hover:text-[#23A6F0] transition-colors">
                 Shop
               </Link>
+
+              {isShopMenuOpen && (
+                <div className="absolute top-full left-0 bg-white shadow-lg rounded-md py-4 min-w-[400px] z-50">
+                  <div className="flex">
+                    {Object.values(shopCategories).map((category, index) => (
+                      <div 
+                        key={category.title} 
+                        className={`flex-1 px-6 ${index !== 0 ? 'border-l' : ''}`}
+                      >
+                        <h3 className="font-bold text-lg mb-4 text-gray-800">{category.title}</h3>
+                        <div className="flex flex-col gap-3">
+                          {category.items.map((item, itemIndex) => (
+                            <Link
+                              key={`${item.name}-${itemIndex}`}
+                              to={item.path}
+                              className="text-gray-600 hover:text-[#23A6F0] transition-colors"
+                              onClick={() => setIsShopMenuOpen(false)}
+                            >
+                              {item.name}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {isShopMenuOpen && <ShopDropdown />}
+
             </div>
             <Link to="/about" className="text-base hover:text-[#23A6F0] transition-colors">About</Link>
             <Link to="/blog" className="text-base hover:text-[#23A6F0] transition-colors">Blog</Link>
@@ -89,12 +148,16 @@ const Header = () => {
         </div>
 
         <div className="flex items-center gap-4 pr-2">
+
+          <UserSection />
+
           <div className="flex items-center gap-1 text-[#23A6F0]">
             <User size={20} />
             <Link to="/login" className="text-base hover:underline">Login</Link>
             <span className="text-base">/</span>
             <Link to="/signup" className="text-base hover:underline">Register</Link>
           </div>
+
           <div className="flex items-center gap-4">
             <Search size={20} className="cursor-pointer text-[#23A6F0]" />
             <div className="flex items-center gap-1 cursor-pointer text-[#23A6F0] relative">
@@ -125,7 +188,15 @@ const Header = () => {
           </Link>
 
           <div className="flex items-center gap-4">
-            <User size={20} className="text-[#23A6F0]" />
+            {user && user.email ? (
+              <img
+                src={getGravatarUrl(user.email)}
+                alt={user.name || 'User'}
+                className="w-8 h-8 rounded-full"
+              />
+            ) : (
+              <User size={20} className="text-[#23A6F0]" />
+            )}
             <Search size={20} className="text-[#23A6F0]" />
             <div className="relative">
               <ShoppingCart size={20} className="text-[#23A6F0]" />
@@ -154,6 +225,25 @@ const Header = () => {
               >
                 Home
               </Link>
+              <div className="w-full px-4">
+                {Object.values(shopCategories).map((category) => (
+                  <div key={category.title} className="mb-4">
+                    <h3 className="font-bold text-lg mb-2 text-gray-800">{category.title}</h3>
+                    <div className="flex flex-col gap-2">
+                      {category.items.map((item, index) => (
+                        <Link
+                          key={`${item.name}-${index}`}
+                          to={item.path}
+                          className="text-gray-600 hover:text-[#23A6F0] transition-colors pl-2"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          {item.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
               <Link 
                 to="/about" 
                 className="text-lg hover:text-[#23A6F0] transition-colors"
@@ -175,7 +265,35 @@ const Header = () => {
               >
                 Contact
               </Link>
+
+              <Link 
+                to="/pages" 
+                className="text-lg hover:text-[#23A6F0] transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Pages
+              </Link>
+              <div className="flex items-center gap-4">
+                {user ? (
+                    <div className="flex items-center gap-2">
+                        <img
+                            src={getGravatarUrl(user.email)}
+                            alt={user.name || 'User'}
+                            className="w-8 h-8 rounded-full"
+                        />
+                        <span className="text-gray-700">{user.name}</span>
+                    </div>
+                ) : (
+                    <div className="flex items-center gap-1">
+                        <Link to="/login">Login</Link>
+                        <span>/</span>
+                        <Link to="/signup">Register</Link>
+                    </div>
+                )}
+            </div>
+
              
+
             </div>
           </nav>
         )}
