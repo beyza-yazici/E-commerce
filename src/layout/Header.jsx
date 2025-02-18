@@ -41,27 +41,6 @@ const Header = () => {
     return `https://www.gravatar.com/avatar/${hash}?d=mp`;
   };
 
-  const UserSection = () => (
-    user ? (
-      <div className="flex items-center gap-2">
-        <img
-          src={getGravatarUrl(user.email)}
-          alt={user.name || 'User'}
-          className="w-8 h-8 rounded-full"
-        />
-        <span className="text-gray-700">{user.name || 'User'}</span>
-      </div>
-    ) : (
-      <div className="flex items-center gap-1 text-[#23A6F0]">
-        <User size={20} />
-        <Link to="/login" className="text-base hover:underline">Login</Link>
-        <span className="text-base">/</span>
-        <Link to="/signup" className="text-base hover:underline">Register</Link>
-      </div>
-    )
-  );
-
-
   return (
     <header className="border-b">
       {/* Desktop Header */}
@@ -116,7 +95,23 @@ const Header = () => {
         </div>
 
         <div className="flex items-center gap-4 pr-2">
-          <UserSection />
+          {user ? (
+            <div className="flex items-center gap-2">
+              <img
+                src={getGravatarUrl(user.email)}
+                alt={user.name || 'User'}
+                className="w-8 h-8 rounded-full"
+              />
+              <span className="text-gray-700">{user.name || 'User'}</span>
+            </div>
+          ) : (
+            <div className="flex items-center gap-1 text-[#23A6F0]">
+              <User size={20} />
+              <Link to="/login" className="text-base hover:underline">Login</Link>
+              <span className="text-base">/</span>
+              <Link to="/signup" className="text-base hover:underline">Register</Link>
+            </div>
+          )}
           <div className="flex items-center gap-4">
             <Search size={20} className="cursor-pointer text-[#23A6F0]" />
             <div className="flex items-center gap-1 cursor-pointer text-[#23A6F0] relative">
@@ -138,7 +133,6 @@ const Header = () => {
           </div>
         </div>
       </div>
-
       {/* Mobile Header */}
       <div className="md:hidden">
         <div className="flex justify-between items-center px-4 py-5">
