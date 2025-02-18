@@ -40,19 +40,31 @@ export const fetchRoles = () => async (dispatch, getState) => {
 
 export const loginUser = (credentials, rememberMe) => async (dispatch) => {
     try {
-        const response = await axiosInstance.post('/login', credentials);
-        const { user, token } = response.data;
-        
-        // Token'ı localStorage'a kaydet (eğer remember me seçiliyse)
+        const response = await axiosInstance.post('/login', {
+            email: credentials.email,
+            password: credentials.password
+        });
+
+        console.log('Login response:', response.data); // Debug için
+
+        // API'den gelen user ve token bilgisini al
+        const { token, user } = response.data;
+
+        // Token'ı kaydet
         if (rememberMe) {
             localStorage.setItem('token', token);
         }
-        
+
         // User bilgisini store'a kaydet
         dispatch(setUser(user));
-        
-        return { success: true };
+
+        return { 
+            success: true,
+            user
+        };
+
     } catch (error) {
+        console.error('Login error:', error); // Debug için
         return { 
             success: false, 
             error: error.response?.data?.message || 'Login failed' 

@@ -10,26 +10,31 @@ const LoginPage = () => {
     const { 
         register, 
         handleSubmit, 
-        formState: { errors, isSubmitting } 
+        formState: { errors, isSubmitting },
+        setError 
     } = useForm();
     
     const dispatch = useDispatch();
     const history = useHistory();
 
-
     const onSubmit = async (data) => {
-        const result = await dispatch(loginUser(data, data.rememberMe));
-        
-        if (result.success) {
-            // Başarılı login - önceki sayfaya veya ana sayfaya yönlendir
-            if (history.length > 2) {
-                history.goBack();
+        try {
+            const result = await dispatch(loginUser(data, data.rememberMe));
+            console.log('Login result:', result); // Debug için
+            
+            if (result.success) {
+                toast.success('Successfully logged in!');
+                history.push('/'); // Direkt ana sayfaya yönlendir
             } else {
-                history.push('/');
+                setError('email', {
+                    type: 'manual',
+                    message: result.error
+                });
+                toast.error(result.error);
             }
-        } else {
-            // Hata durumunda toast göster
-            toast.error(result.error);
+        } catch (error) {
+            console.error('Submit error:', error); // Debug için
+            toast.error('An unexpected error occurred');
         }
     };
 
@@ -94,17 +99,21 @@ const LoginPage = () => {
                     </div>
 
                     <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                            <input
-                                {...register("rememberMe")}
-                                type="checkbox"
-                                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                            />
-                            <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                                Remember me
-                            </label>
-                        </div>
-                    </div>
+    <div className="flex items-center">
+        <input
+            id="remember-me" 
+            {...register("rememberMe")}
+            type="checkbox"
+            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded cursor-pointer"
+        />
+        <label 
+            htmlFor="remember-me" 
+            className="ml-2 block text-sm text-gray-900 cursor-pointer select-none hover:text-blue-600 transition-colors"
+        >
+            Remember me
+        </label>
+    </div>
+</div>
 
                     <div>
                         <button
