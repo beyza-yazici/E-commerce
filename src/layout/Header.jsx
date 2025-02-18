@@ -49,7 +49,7 @@ const Header = () => {
             <User size={20} />
             <Link to="/login" className="text-base hover:underline">Login</Link>
             <span className="text-base">/</span>
-            <Link to="/register" className="text-base hover:underline">Register</Link>
+            <Link to="/signup" className="text-base hover:underline">Register</Link>
           </div>
           <div className="flex items-center gap-4">
             <Search size={20} className="cursor-pointer text-[#23A6F0]" />
