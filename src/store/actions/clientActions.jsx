@@ -1,5 +1,6 @@
+import axiosInstance from '../../axiosInstance';
 import * as types from './actionTypes';
-import axiosInstance from '../../api/axiosInstance';
+
 
 // Regular action creators
 export const setUser = (user) => ({
@@ -22,17 +23,39 @@ export const setLanguage = (language) => ({
     payload: language
 });
 
-// Thunk action creator for roles
+// Thunk action creators
 export const fetchRoles = () => async (dispatch, getState) => {
     const { roles } = getState().client;
     
     // Only fetch if roles are empty
     if (roles.length === 0) {
         try {
-            const response = await axiosInstance.get('/roles');
+            const response = await axiosInstance.get('https://workintech-fe-ecommerce.onrender.com/roles');
             dispatch(setRoles(response.data));
         } catch (error) {
             console.error('Error fetching roles:', error);
         }
+    }
+};
+
+export const loginUser = (credentials, rememberMe) => async (dispatch) => {
+    try {
+        const response = await axiosInstance.post('/login', credentials);
+        const { user, token } = response.data;
+        
+        // Token'ı localStorage'a kaydet (eğer remember me seçiliyse)
+        if (rememberMe) {
+            localStorage.setItem('token', token);
+        }
+        
+        // User bilgisini store'a kaydet
+        dispatch(setUser(user));
+        
+        return { success: true };
+    } catch (error) {
+        return { 
+            success: false, 
+            error: error.response?.data?.message || 'Login failed' 
+        };
     }
 };
