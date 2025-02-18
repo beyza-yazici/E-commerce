@@ -36,6 +36,7 @@ const Header = () => {
     }
   };
 
+
   const getGravatarUrl = (email) => {
     if (!email) return 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp';
     const hash = md5(email.toLowerCase().trim());
@@ -60,6 +61,33 @@ const Header = () => {
         <Link to="/signup" className="text-base hover:underline">Register</Link>
       </div>
     )
+
+  const ShopDropdown = () => (
+    <div className="absolute top-full left-0 bg-white shadow-lg rounded-md py-4 min-w-[400px] z-50">
+      <div className="flex">
+        {Object.values(shopCategories).map((category, index) => (
+          <div 
+            key={category.title} 
+            className={`flex-1 px-6 ${index !== 0 ? 'border-l' : ''}`}
+          >
+            <h3 className="font-bold text-lg mb-4">{category.title}</h3>
+            <div className="flex flex-col gap-3">
+              {category.items.map((item, itemIndex) => (
+                <Link
+                  key={`${item.name}-${itemIndex}`}
+                  to={item.path}
+                  className="text-gray-600 hover:text-[#23A6F0] transition-colors"
+                  onClick={() => setIsShopMenuOpen(false)}
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
   );
 
   return (
@@ -81,6 +109,7 @@ const Header = () => {
               <Link to="/shop" className="text-base hover:text-[#23A6F0] transition-colors">
                 Shop
               </Link>
+
               {isShopMenuOpen && (
                 <div className="absolute top-full left-0 bg-white shadow-lg rounded-md py-4 min-w-[400px] z-50">
                   <div className="flex">
@@ -107,6 +136,9 @@ const Header = () => {
                   </div>
                 </div>
               )}
+
+              {isShopMenuOpen && <ShopDropdown />}
+
             </div>
             <Link to="/about" className="text-base hover:text-[#23A6F0] transition-colors">About</Link>
             <Link to="/blog" className="text-base hover:text-[#23A6F0] transition-colors">Blog</Link>
@@ -116,7 +148,16 @@ const Header = () => {
         </div>
 
         <div className="flex items-center gap-4 pr-2">
+
           <UserSection />
+
+          <div className="flex items-center gap-1 text-[#23A6F0]">
+            <User size={20} />
+            <Link to="/login" className="text-base hover:underline">Login</Link>
+            <span className="text-base">/</span>
+            <Link to="/signup" className="text-base hover:underline">Register</Link>
+          </div>
+
           <div className="flex items-center gap-4">
             <Search size={20} className="cursor-pointer text-[#23A6F0]" />
             <div className="flex items-center gap-1 cursor-pointer text-[#23A6F0] relative">
@@ -208,22 +249,23 @@ const Header = () => {
                 className="text-lg hover:text-[#23A6F0] transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                About
+                Product
               </Link>
               <Link 
-                to="/blog" 
+                to="/product" 
                 className="text-lg hover:text-[#23A6F0] transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Blog
+                Pricing
               </Link>
               <Link 
-                to="/contact" 
+                to="/pricing" 
                 className="text-lg hover:text-[#23A6F0] transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Contact
               </Link>
+
               <Link 
                 to="/pages" 
                 className="text-lg hover:text-[#23A6F0] transition-colors"
@@ -249,6 +291,9 @@ const Header = () => {
                     </div>
                 )}
             </div>
+
+             
+
             </div>
           </nav>
         )}
