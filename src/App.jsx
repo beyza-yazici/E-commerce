@@ -6,19 +6,17 @@ import ShopPage from "./components/ShopPage";
 import SignupPage from "./pages/SignupPage";
 
 function App() {
-
-
   return (
     <Router>
       <PageContent> 
-      <Switch>
-      <Route path="/signup" component={SignupPage} />
-        <Route exact path="/" component={HomePage} />
-        <Route path="/shop" component={ShopPage} />
-      </Switch>
+        <Switch>
+          <Route path="/signup" component={SignupPage} />
+          <Route exact path="/" component={HomePage} />
+          <Route path="/shop" component={ShopPage} />
+        </Switch>
       </PageContent> 
     </Router>
   )
 }
 
-export default App
+export default App;
