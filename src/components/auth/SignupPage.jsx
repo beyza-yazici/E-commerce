@@ -4,7 +4,8 @@ import { useHistory } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import axiosInstance from '../axiosInstance';
+import axiosInstance from '../../axiosInstance';
+
 
 
 // Validation schema
@@ -64,7 +65,7 @@ const schema = yup.object().shape({
 });
 
 const SignupPage = () => {
-  const [roles, setRoles] = useState([]);
+  const [roles, setRoles] = useState([{ id: 3, name: 'Müşteri' }, { id: 2, name: 'Store' }]); // Default roles
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const history = useHistory();
@@ -201,6 +202,7 @@ const SignupPage = () => {
           </label>
           <select
             {...register('role_id')}
+            defaultValue="3"
             className={`w-full px-3 py-2 border rounded-md ${errors.role_id ? 'border-red-500' : 'border-gray-300'}`}
           >
             {roles.map(role => (
