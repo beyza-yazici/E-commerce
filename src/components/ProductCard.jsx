@@ -9,7 +9,7 @@ const ProductCard = ({ product }) => {
   }
 
   return (
-    <div className="flex flex-col bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+    <Link to={`/product/${product.id}`} className="flex flex-col bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
       {/* Ürün Görseli ve Aksiyonlar */}
       <div className="relative group">
         {product.image && (
@@ -91,7 +91,7 @@ const ProductCard = ({ product }) => {
           Learn More →
         </Link>
       </div>
-    </div>
+    </Link>
   );
 };
 

@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Mail, Lock } from 'lucide-react';
-import { loginUser } from '../store/actions/clientActions';
+import { loginUser } from '../../store/actions/clientActions';
 
 const LoginPage = () => {
     const { 
