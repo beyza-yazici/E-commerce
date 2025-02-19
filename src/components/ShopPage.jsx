@@ -1,5 +1,6 @@
 
 import { Link } from 'react-router-dom';
+import LogoBand from './Logo';
 
 const ShopPage = () => {
   const categories = [
@@ -174,7 +175,7 @@ const ShopPage = () => {
       <img 
         src={category.image} 
         alt={category.title}
-        className="absolute inset-0 w-full h-full object-cover z-10" // z-index ekledik
+        className="absolute inset-0 w-full h-full object-cover z-10" 
       />
       <div className="absolute inset-0 bg-black bg-opacity-20 flex flex-col justify-center items-center text-white z-20">
         <h3 className="text-xl font-bold">{category.title}</h3>
@@ -235,7 +236,7 @@ const ShopPage = () => {
         <img 
           src={product.image} 
           alt={product.title}
-          className="w-full aspect-[3/4] object-cover z-10" // z-index ekledik
+          className="w-full aspect-[3/4] object-cover z-10"
         />
         <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 z-20" /> 
       </div>
@@ -258,6 +259,8 @@ const ShopPage = () => {
           </div>
         ))}
       </div>
+
+      <LogoBand />
 
       {/* Pagination */}
       <div className="flex justify-center mt-12">
