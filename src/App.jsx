@@ -7,6 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ProductDetail from "./pages/ProductDetail";
 import AuthPage from "./pages/AuthPage";
+import Contact from "./pages/Contact";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route exact path="/" component={HomePage} />
           <Route path="/shop" component={ShopPage} />
           <Route path="/product/:id" component={ProductDetail} />
+          <Route path="/contact" component={Contact} />
         </Switch>
       </PageContent> 
       <ToastContainer />
