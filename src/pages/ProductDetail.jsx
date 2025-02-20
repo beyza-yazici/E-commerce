@@ -2,20 +2,19 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Heart, ShoppingCart, Eye, Star, ArrowLeft, ArrowRight } from 'lucide-react';
+import LogoBand from '../components/Logo';
 
 const ProductDetail = () => {
   const { id } = useParams();
   const [selectedImage, setSelectedImage] = useState(0);
+  const [activeTab, setActiveTab] = useState('description');
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // API'den ürün detaylarını al
     const fetchProduct = async () => {
       try {
         setLoading(true);
-        // API çağrısı burada yapılacak
-        // Örnek veri:
         const mockProduct = {
           id,
           title: "Floating Phone",
@@ -28,8 +27,8 @@ const ProductDetail = () => {
           department: "Electronics",
           sales: 123,
           images: [
-            "https://example.com/image1.jpg",
-            "https://example.com/image2.jpg"
+            "https://images.pexels.com/photos/1350789/pexels-photo-1350789.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "https://images.pexels.com/photos/1350789/pexels-photo-1350789.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
           ],
           colors: ["bg-blue-500", "bg-green-500", "bg-orange-500", "bg-gray-900"]
         };
@@ -43,6 +42,36 @@ const ProductDetail = () => {
 
     fetchProduct();
   }, [id]);
+
+  const tabContent = {
+    description: {
+      title: "Description",
+      content: product?.description || "No description available"
+    },
+    additional: {
+      title: "Additional Information",
+      content: "Additional product information goes here..."
+    },
+    reviews: {
+      title: "Reviews (0)",
+      content: (
+        <div className="space-y-2">
+          <div className="flex items-center gap-2">
+            <span>→</span>
+            <p>the quick fox jumps over the lazy dog</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <span>→</span>
+            <p>the quick fox jumps over the lazy dog</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <span>→</span>
+            <p>the quick fox jumps over the lazy dog</p>
+          </div>
+        </div>
+      )
+    }
+  };
 
   if (loading) {
     return (
@@ -64,7 +93,7 @@ const ProductDetail = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 mb-8 text-sm">
         <Link to="/" className="text-gray-600 hover:text-blue-500">Home</Link>
@@ -180,7 +209,190 @@ const ProductDetail = () => {
           </div>
         </div>
       </div>
+
+      {/* Tab System */}
+<div className="mt-12">
+  {/* Tab Headers */}
+<div className="flex justify-center border-b">
+  {Object.entries(tabContent).map(([key, { title }]) => (
+    <button
+      key={key}
+      onClick={() => setActiveTab(key)}
+      className={`px-6 py-3 text-sm font-medium ${
+        activeTab === key
+          ? 'border-b-2 border-blue-500 text-blue-500'
+          : 'text-gray-500 hover:text-gray-700'
+      }`}
+    >
+      {title}
+    </button>
+  ))}
+</div>
+
+{/* Desktop Content */}
+<div className="hidden md:flex mt-8 gap-16">
+  {/* Left Side - Image */}
+  <div className="w-1/3">
+    <div className="bg-gray-50 rounded-lg overflow-hidden">
+      <img
+        src={product?.images[0]}
+        alt="Product"
+        className="w-full h-full object-cover"
+      />
     </div>
+  </div>
+
+  {/* Right Side - Content */}
+  <div className="w-2/3">
+    <div className="space-y-12">
+      {/* First Section */}
+      <div>
+        <h3 className="text-2xl font-bold mb-6">the quick fox jumps over</h3>
+        <div className="text-gray-600 space-y-6">
+          <p>Met minim Mollie non desert Alamo est sit cliquey dolor do met sent. RELIT official consequent door ENIM RELIT Mollie. Excitation venial consequent sent nostrum met.</p>
+          <p>Met minim Mollie non desert Alamo est sit cliquey dolor do met sent. RELIT official consequent door ENIM RELIT Mollie. Excitation venial consequent sent nostrum met.</p>
+          <p>Met minim Mollie non desert Alamo est sit cliquey dolor do met sent. RELIT official consequent door ENIM RELIT Mollie. Excitation venial consequent sent nostrum met.</p>
+        </div>
+      </div>
+
+      <div className="flex gap-16">
+        {/* Left Column */}
+        <div className="flex-1">
+          <h3 className="text-2xl font-bold mb-6">the quick fox jumps over</h3>
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <span>→</span>
+              <p>the quick fox jumps over the lazy dog</p>
+            </div>
+            <div className="flex items-center gap-3">
+              <span>→</span>
+              <p>the quick fox jumps over the lazy dog</p>
+            </div>
+            <div className="flex items-center gap-3">
+              <span>→</span>
+              <p>the quick fox jumps over the lazy dog</p>
+            </div>
+            <div className="flex items-center gap-3">
+              <span>→</span>
+              <p>the quick fox jumps over the lazy dog</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column */}
+        <div className="flex-1">
+          <h3 className="text-2xl font-bold mb-6">the quick fox jumps over</h3>
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <span>→</span>
+              <p>the quick fox jumps over the lazy dog</p>
+            </div>
+            <div className="flex items-center gap-3">
+              <span>→</span>
+              <p>the quick fox jumps over the lazy dog</p>
+            </div>
+            <div className="flex items-center gap-3">
+              <span>→</span>
+              <p>the quick fox jumps over the lazy dog</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  {/* Mobile Content */}
+<div className="md:hidden space-y-6">
+  {/* Image Section */}
+  <div>
+    <img
+      src={product?.images[0]}
+      alt="Product"
+      className="w-full h-auto rounded-lg mb-6"
+    />
+  </div>
+
+  {/* Description Section */}
+  <div className="mb-8">
+    <h3 className="text-xl font-bold mb-4">the quick fox jumps over</h3>
+    <div className="space-y-4 text-gray-600">
+      <p>Met minim Mollie non desert Alamo est sit cliquey dolor do met sent. RELIT official consequent door ENIM RELIT Mollie. Excitation venial consequent sent nostrum met.</p>
+      <p>Met minim Mollie non desert Alamo est sit cliquey dolor do met sent. RELIT official consequent door ENIM RELIT Mollie. Excitation venial consequent sent nostrum met.</p>
+      <p>Met minim Mollie non desert Alamo est sit cliquey dolor do met sent. RELIT official consequent door ENIM RELIT Mollie. Excitation venial consequent sent nostrum met.</p>
+    </div>
+  </div>
+
+  {/* List Section */}
+  <div className="mb-8">
+    <h3 className="text-xl font-bold mb-4">the quick fox jumps over</h3>
+    <div className="space-y-2">
+      <div className="flex items-center gap-2">
+        <span>→</span>
+        <p>the quick fox jumps over the lazy dog</p>
+      </div>
+      <div className="flex items-center gap-2">
+        <span>→</span>
+        <p>the quick fox jumps over the lazy dog</p>
+      </div>
+      <div className="flex items-center gap-2">
+        <span>→</span>
+        <p>the quick fox jumps over the lazy dog</p>
+      </div>
+    </div>
+  </div>
+</div>
+{/* Bestseller Products Section */}
+<div className="mt-16">
+  <h2 className="text-2xl font-bold mb-8">BESTSELLER PRODUCTS</h2>
+  
+  {/* Desktop Grid - 4x2 */}
+  <div className="hidden md:grid grid-cols-4 gap-6">
+    {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
+      <div key={item} className="group cursor-pointer">
+        <div className="aspect-square overflow-hidden rounded-lg mb-4">
+          <img
+            src={product.images[0]}
+            alt={`Bestseller ${item}`}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+        <h3 className="font-medium mb-1">Graphic Design</h3>
+        <p className="text-gray-600 text-sm mb-2">English Department</p>
+        <div className="flex items-center gap-2">
+          <span className="text-gray-400 line-through">$16.48</span>
+          <span className="text-green-600 font-medium">$6.48</span>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  {/* Mobile List - Single Column */}
+  <div className="md:hidden space-y-6">
+    {[1, 2, 3, 4].map((item) => (
+      <div key={item} className="cursor-pointer">
+        <div className="aspect-square overflow-hidden rounded-lg mb-4">
+          <img
+            src={product.images[0]}
+            alt={`Bestseller ${item}`}
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <h3 className="font-medium mb-1">Graphic Design</h3>
+        <p className="text-gray-600 text-sm mb-2">English Department</p>
+        <div className="flex items-center gap-2">
+          <span className="text-gray-400 line-through">$16.48</span>
+          <span className="text-green-600 font-medium">$6.48</span>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <LogoBand />
+
+</div>
+</div>
+</div>
   );
 };
 
