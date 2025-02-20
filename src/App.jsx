@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ProductDetail from "./pages/ProductDetail";
 import AuthPage from "./pages/AuthPage";
 import Contact from "./pages/Contact";
+import Team from "./pages/Team";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/shop" component={ShopPage} />
           <Route path="/product/:id" component={ProductDetail} />
           <Route path="/contact" component={Contact} />
+          <Route path="/about" component={Team} />
         </Switch>
       </PageContent> 
       <ToastContainer />
