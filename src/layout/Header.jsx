@@ -230,7 +230,7 @@ const Header = () => {
                 ))}
               </div>
               <Link 
-                to="/about" 
+                to="/team" 
                 className="text-lg hover:text-[#23A6F0] transition-colors"
                 onClick={handleMobileMenuClose}
               >
