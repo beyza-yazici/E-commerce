@@ -10,6 +10,7 @@ import AuthPage from "./pages/AuthPage";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
 import TopCategories from "./components/TopCategories";
+import ShoppingPage from "./pages/ShoppingPage";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/contact" component={Contact} />
           <Route path="/about" component={About} />
           <Route exact path="/" component={TopCategories} />
+          <Route path="/shop" component={ShoppingPage} />
         </Switch>
       </PageContent> 
       <ToastContainer />
