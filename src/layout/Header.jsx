@@ -5,12 +5,14 @@ import { Menu, X, Search, ShoppingCart, Heart, User, LogOut } from 'lucide-react
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../store/actions/authActions';
 import md5 from 'md5';
+import ShopDropdown from '../components/ShopDropdown';
+
 
 const Header = () => {
   const dispatch = useDispatch();
   const { isAuthenticated, user, isLoading } = useSelector(state => state.auth);
+  
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isShopMenuOpen, setIsShopMenuOpen] = useState(false);
   const [cartCount] = useState(0);
   const [wishlistCount] = useState(0);
   const [gravatarUrl, setGravatarUrl] = useState('');
@@ -59,7 +61,6 @@ const Header = () => {
   useEffect(() => {
     return () => {
       setIsMenuOpen(false);
-      setIsShopMenuOpen(false);
     };
   }, []);
 
@@ -118,46 +119,15 @@ const Header = () => {
           <Link to="/" className="text-2xl font-bold pl-2">Bandage</Link>
           <nav className="flex items-center gap-4">
             <Link to="/" className="text-base hover:text-[#23A6F0] transition-colors">Home</Link>
-            <div 
-              className="relative"
-              onMouseEnter={() => setIsShopMenuOpen(true)}
-              onMouseLeave={() => setIsShopMenuOpen(false)}
-            >
-              <Link to="/shop" className="text-base hover:text-[#23A6F0] transition-colors">
-                Shop
-              </Link>
-              {isShopMenuOpen && (
-                <div className="absolute top-full left-0 bg-white shadow-lg rounded-md py-4 min-w-[400px] z-50">
-                  <div className="flex">
-                    {Object.values(shopCategories).map((category, index) => (
-                      <div 
-                        key={category.title} 
-                        className={`flex-1 px-6 ${index !== 0 ? 'border-l' : ''}`}
-                      >
-                        <h3 className="font-bold text-lg mb-4 text-gray-800">{category.title}</h3>
-                        <div className="flex flex-col gap-3">
-                          {category.items.map((item, itemIndex) => (
-                            <Link
-                              key={`${item.name}-${itemIndex}`}
-                              to={item.path}
-                              className="text-gray-600 hover:text-[#23A6F0] transition-colors"
-                              onClick={() => setIsShopMenuOpen(false)}
-                            >
-                              {item.name}
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
+            <div className="flex items-center space-x-4">
+            <ShopDropdown />
             <Link to="/about" className="text-base hover:text-[#23A6F0] transition-colors">About</Link>
             <Link to="/blog" className="text-base hover:text-[#23A6F0] transition-colors">Blog</Link>
             <Link to="/contact" className="text-base hover:text-[#23A6F0] transition-colors">Contact</Link>
             <Link to="/pages" className="text-base hover:text-[#23A6F0] transition-colors">Pages</Link>
+            </div>
           </nav>
+          
         </div>
 
         <div className="flex items-center gap-4 pr-2">

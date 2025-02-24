@@ -35,3 +35,21 @@ export const setFilter = (filter) => ({
     type: types.SET_FILTER,
     payload: filter
 });
+
+export const fetchProducts = () => {
+    return async (dispatch) => {
+        dispatch(setFetchState('FETCHING'));
+
+        try {
+            const response = await fetch('/products');
+            const data = await response.json();
+            
+            dispatch(setProductList(data.products));
+            dispatch(setTotal(data.total));
+            dispatch(setFetchState('FETCHED'));
+        } catch (error) {
+            dispatch(setFetchState('ERROR'));
+            console.error('Error fetching products:', error);
+        }
+    };
+};
