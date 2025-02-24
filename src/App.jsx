@@ -9,6 +9,7 @@ import ProductDetail from "./pages/ProductDetail";
 import AuthPage from "./pages/AuthPage";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
+import TopCategories from "./components/TopCategories";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/product/:id" component={ProductDetail} />
           <Route path="/contact" component={Contact} />
           <Route path="/about" component={About} />
+          <Route exact path="/" component={TopCategories} />
         </Switch>
       </PageContent> 
       <ToastContainer />
