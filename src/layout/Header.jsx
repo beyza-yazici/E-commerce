@@ -1,13 +1,14 @@
 // src/layout/Header.jsx
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, Search, ShoppingCart, Heart, User } from 'lucide-react';
-import { useSelector } from 'react-redux';
+import { Menu, X, Search, ShoppingCart, Heart, User, LogOut } from 'lucide-react';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../store/actions/authActions';
 import md5 from 'md5';
 
 const Header = () => {
-  // Redux state'ini güvenli bir şekilde al
-  const user = useSelector(state => state?.client?.user || null);
+  const dispatch = useDispatch();
+  const { isAuthenticated, user, isLoading } = useSelector(state => state.auth);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isShopMenuOpen, setIsShopMenuOpen] = useState(false);
   const [cartCount] = useState(0);
@@ -37,7 +38,6 @@ const Header = () => {
     }
   };
 
-  // Gravatar URL'ini hesapla
   const getGravatarUrl = (email) => {
     try {
       if (!email) return 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp';
@@ -49,7 +49,6 @@ const Header = () => {
     }
   };
 
-  // User değiştiğinde Gravatar URL'ini güncelle
   useEffect(() => {
     if (user?.email) {
       const url = getGravatarUrl(user.email);
@@ -57,7 +56,6 @@ const Header = () => {
     }
   }, [user]);
 
-  // Menüyü kapat (cleanup)
   useEffect(() => {
     return () => {
       setIsMenuOpen(false);
@@ -65,9 +63,51 @@ const Header = () => {
     };
   }, []);
 
-  // Mobil menüyü kapat
   const handleMobileMenuClose = () => {
     setIsMenuOpen(false);
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    handleMobileMenuClose();
+  };
+
+  const renderUserInfo = () => {
+    if (isLoading) return null;
+
+    if (isAuthenticated && user) {
+      return (
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <img
+              src={gravatarUrl}
+              alt={user.name}
+              className="w-8 h-8 rounded-full"
+              onError={(e) => {
+                e.target.src = 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp';
+              }}
+            />
+            <span className="text-gray-700">{user.name}</span>
+          </div>
+          <button
+            onClick={handleLogout}
+            className="text-gray-600 hover:text-red-500 transition-colors flex items-center gap-1"
+          >
+            <LogOut size={18} />
+            <span>Çıkış</span>
+          </button>
+        </div>
+      );
+    }
+
+    return (
+      <div className="flex items-center gap-1 text-[#23A6F0]">
+        <User size={20} />
+        <Link to="/auth" className="text-base hover:underline">
+          Giriş Yap / Üye Ol
+        </Link>
+      </div>
+    );
   };
 
   return (
@@ -121,26 +161,7 @@ const Header = () => {
         </div>
 
         <div className="flex items-center gap-4 pr-2">
-          {user ? (
-            <div className="flex items-center gap-2">
-              <img
-                src={gravatarUrl}
-                alt={user.name || 'User'}
-                className="w-8 h-8 rounded-full"
-                onError={(e) => {
-                  e.target.src = 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp';
-                }}
-              />
-              <span className="text-gray-700">{user.name || 'User'}</span>
-            </div>
-          ) : (
-            <div className="flex items-center gap-1 text-[#23A6F0]">
-              <User size={20} />
-        <Link to="/auth" className="text-base hover:underline">
-          Giriş Yap / Üye Ol
-        </Link>
-            </div>
-          )}
+          {renderUserInfo()}
           
           <div className="flex items-center gap-4">
             <Search size={20} className="cursor-pointer text-[#23A6F0]" />
@@ -169,17 +190,27 @@ const Header = () => {
         <div className="flex justify-between items-center px-4 py-5">
           <Link to="/" className="text-2xl font-bold">Bandage</Link>
           <div className="flex items-center gap-4">
-            {user ? (
-              <img
-                src={gravatarUrl}
-                alt={user.name || 'User'}
-                className="w-8 h-8 rounded-full"
-                onError={(e) => {
-                  e.target.src = 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp';
-                }}
-              />
+            {isAuthenticated ? (
+              <div className="flex items-center gap-2">
+                <img
+                  src={gravatarUrl}
+                  alt={user?.name}
+                  className="w-8 h-8 rounded-full"
+                  onError={(e) => {
+                    e.target.src = 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp';
+                  }}
+                />
+                <button
+                  onClick={handleLogout}
+                  className="text-red-500"
+                >
+                  <LogOut size={18} />
+                </button>
+              </div>
             ) : (
-              <User size={20} className="text-[#23A6F0]" />
+              <Link to="/signup">
+                <User size={20} className="text-[#23A6F0]" />
+              </Link>
             )}
             <Search size={20} className="text-[#23A6F0]" />
             <div className="relative">
@@ -230,7 +261,7 @@ const Header = () => {
                 ))}
               </div>
               <Link 
-                to="/team" 
+                to="/about" 
                 className="text-lg hover:text-[#23A6F0] transition-colors"
                 onClick={handleMobileMenuClose}
               >
@@ -258,40 +289,39 @@ const Header = () => {
                 Pages
               </Link>
 
-              {/* Kullanıcı bilgileri veya login/register */}
-              {user ? (
-                <div className="flex items-center gap-2">
-                  <img
-                    src={gravatarUrl}
-                    alt={user.name || 'User'}
-                    className="w-8 h-8 rounded-full"
-                    onError={(e) => {
-                      e.target.src = 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp';
-                    }}
-                  />
-                  <span className="text-gray-700">{user.name || 'User'}</span>
+              {isAuthenticated ? (
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2">
+                    <img
+                      src={gravatarUrl}
+                      alt={user?.name}
+                      className="w-8 h-8 rounded-full"
+                      onError={(e) => {
+                        e.target.src = 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp';
+                      }}
+                    />
+                    <span className="text-gray-700">{user?.name}</span>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="text-red-500 flex items-center gap-1"
+                  >
+                    <LogOut size={18} />
+                    <span>Çıkış</span>
+                  </button>
                 </div>
               ) : (
                 <div className="flex items-center gap-4">
                   <Link 
-                    to="/login" 
+                    to="/auth" 
                     className="text-lg hover:text-[#23A6F0] transition-colors"
                     onClick={handleMobileMenuClose}
                   >
-                    Login
-                  </Link>
-                  <span className="text-gray-400">/</span>
-                  <Link 
-                    to="/signup" 
-                    className="text-lg hover:text-[#23A6F0] transition-colors"
-                    onClick={handleMobileMenuClose}
-                  >
-                    Register
+                    Giriş Yap / Üye Ol
                   </Link>
                 </div>
               )}
 
-              {/* Sepet ve favori sayaçları */}
               <div className="flex items-center gap-6">
                 <div className="relative">
                   <Heart size={20} className="text-[#23A6F0]" />
