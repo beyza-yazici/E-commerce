@@ -1,6 +1,6 @@
 // src/layout/Header.jsx
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Menu, X, Search, ShoppingCart, Heart, User, LogOut } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../store/actions/authActions';
@@ -9,13 +9,18 @@ import ShopDropdown from '../components/ShopDropdown';
 
 
 const Header = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const { isAuthenticated, user, isLoading } = useSelector(state => state.auth);
-  
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cartCount] = useState(0);
   const [wishlistCount] = useState(0);
   const [gravatarUrl, setGravatarUrl] = useState('');
+
+  const handleCategoryClick = (category) => {
+    history.push(`/shop/${category.gender}/${category.name.toLowerCase()}/${category.id}`);
+    setIsMenuOpen(false); // mobil menüyü kapat
+  };
 
   const shopCategories = {
     women: {
@@ -216,15 +221,14 @@ const Header = () => {
                   <div key={category.title} className="mb-4">
                     <h3 className="font-bold text-lg mb-2 text-gray-800">{category.title}</h3>
                     <div className="flex flex-col gap-2">
-                      {category.items.map((item, index) => (
-                        <Link
-                          key={`${item.name}-${index}`}
-                          to={item.path}
-                          className="text-gray-600 hover:text-[#23A6F0] transition-colors pl-2"
-                          onClick={handleMobileMenuClose}
-                        >
-                          {item.name}
-                        </Link>
+                      {category.items.map((item) => (
+                        <button
+                        key={item.id}
+                        onClick={() => handleCategoryClick(item)}
+                        className="text-gray-600 hover:text-[#23A6F0] transition-colors pl-2 text-left"
+                      >
+                        {item.name}
+                      </button>
                       ))}
                     </div>
                   </div>

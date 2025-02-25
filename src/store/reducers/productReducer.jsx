@@ -12,7 +12,7 @@ const initialState = {
     sort: '',
     loading: false,
     error: null,
-    
+    currentProduct: null
 };
 
 export default function productReducer(state = initialState, action) {
@@ -41,6 +41,8 @@ export default function productReducer(state = initialState, action) {
             return { ...state, loading: true };
         case 'FETCH_PRODUCTS_ERROR':
             return { ...state, error: action.payload, loading: false };
+        case types.SET_CURRENT_PRODUCT:
+                return { ...state, currentProduct: action.payload };
         default:
             return state;
     }
