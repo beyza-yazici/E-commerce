@@ -5,13 +5,14 @@ const initialState = {
     productList: [],
     total: 0,
     fetchState: 'FETCHED', 
-    limit: 10,
+    limit: 25,
     offset: 0,
     filter: '',
     categoryId: null,
     sort: '',
     loading: false,
-    error: null
+    error: null,
+    
 };
 
 export default function productReducer(state = initialState, action) {
