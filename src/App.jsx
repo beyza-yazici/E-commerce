@@ -18,11 +18,11 @@ function App() {
         <Switch>
         <Route path="/auth" component={AuthPage} />
           <Route exact path="/" component={HomePage} />
-          <Route path="/product/:id" component={ProductDetail} />
+          <Route path="/shop/:gender/:categoryName/:categoryId/:productNameSlug/:productId" component={ProductDetail} />
           <Route path="/contact" component={Contact} />
           <Route path="/about" component={About} />
           <Route exact path="/" component={TopCategories} />
-          <Route path="/shop" component={ShoppingPage} />
+          <Route exact path="/shop/:gender/:categoryName/:categoryId" component={ShoppingPage} />
         </Switch>
       </PageContent> 
       <ToastContainer />
