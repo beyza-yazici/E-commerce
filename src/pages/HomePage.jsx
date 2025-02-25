@@ -3,9 +3,25 @@ import BannerSlider from "../components/BannerSlider";
 import FeaturedSection from "../components/FeaturedSection";
 import FeaturedPosts from "../components/FeaturedPosts";
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchProducts } from "../store/actions/productActions";
+import BestsellerCard from "../components/BestsellerCard";
 
 
 function HomePage() {
+
+  const dispatch = useDispatch();
+  // eslint-disable-next-line no-unused-vars
+  const { productList, fetchState } = useSelector(state => state.products);
+
+  useEffect(() => {
+    dispatch(fetchProducts({
+      limit: 8, // Bestseller için 8 ürün
+      offset: 0
+    }));
+  }, [dispatch]);
+
   return (
     <div className="flex flex-col gap-12">
       {/* Hero Slider Section */}
@@ -124,103 +140,30 @@ function HomePage() {
 <section className="container mx-auto px-4">
   <div className="text-center mb-8">
     <p className="text-gray-500 text-sm">Featured Products</p>
-    <h2 className="text-2xl font-bold">BESTSELLER PRODUCTS</h2>
-    <p className="text-gray-500">Problems trying to resolve the conflict between</p>
+    <h2 className="text-2xl font-bold mb-2">BESTSELLER PRODUCTS</h2>
+    <p className="text-gray-500 text-sm">Problems trying to resolve the conflict between</p>
   </div>
 
-  <div className="flex flex-wrap gap-8 justify-center">
-    {[
-      {
-        image: "https://images.pexels.com/photos/18049026/pexels-photo-18049026/free-photo-of-kadin-kot-ayakta-bluz.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        title: "Graphic Design",
-        department: "English Department",
-        oldPrice: "$16.48",
-        newPrice: "$6.48",
-        colors: ["bg-blue-500", "bg-green-500", "bg-orange-500", "bg-black"]
-      },
-      {
-        image: "https://images.pexels.com/photos/2955375/pexels-photo-2955375.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        title: "Graphic Design",
-        department: "English Department",
-        oldPrice: "$16.48",
-        newPrice: "$6.48",
-        colors: ["bg-blue-500", "bg-green-500", "bg-orange-500", "bg-black"]
-      },
-      {
-        image: "https://images.pexels.com/photos/2922301/pexels-photo-2922301.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        title: "Graphic Design",
-        department: "English Department",
-        oldPrice: "$16.48",
-        newPrice: "$6.48",
-        colors: ["bg-blue-500", "bg-green-500", "bg-orange-500", "bg-black"]
-      },
-      {
-        image: "https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        title: "Graphic Design",
-        department: "English Department",
-        oldPrice: "$16.48",
-        newPrice: "$6.48",
-        colors: ["bg-blue-500", "bg-green-500", "bg-orange-500", "bg-black"]
-      },
-      {
-        image: "https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        title: "Graphic Design",
-        department: "English Department",
-        oldPrice: "$16.48",
-        newPrice: "$6.48",
-        colors: ["bg-blue-500", "bg-green-500", "bg-orange-500", "bg-black"]
-      },
-      {
-        image: "https://images.pexels.com/photos/2584269/pexels-photo-2584269.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        title: "Graphic Design",
-        department: "English Department",
-        oldPrice: "$16.48",
-        newPrice: "$6.48",
-        colors: ["bg-blue-500", "bg-green-500", "bg-orange-500", "bg-black"]
-      },
-      {
-        image: "https://images.pexels.com/photos/2681751/pexels-photo-2681751.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        title: "Graphic Design",
-        department: "English Department",
-        oldPrice: "$16.48",
-        newPrice: "$6.48",
-        colors: ["bg-blue-500", "bg-green-500", "bg-orange-500", "bg-black"]
-      },
-      {
-        image: "https://images.pexels.com/photos/1040424/pexels-photo-1040424.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        title: "Graphic Design",
-        department: "English Department",
-        oldPrice: "$16.48",
-        newPrice: "$6.48",
-        colors: ["bg-blue-500", "bg-green-500", "bg-orange-500", "bg-black"]
-      }
-    ].map((product, index) => (
-      <Link to={`/product/${index + 1}`} key={index} className="flex flex-col w-[280px]">
-        <div className="relative h-[400px] bg-gray-100">
-          <img 
-            src={product.image} 
-            alt={product.title} 
-            className="w-full h-full object-cover"
-          />
-        </div>
-        <div className="mt-4 text-center">
-          <h3 className="font-bold text-base">{product.title}</h3>
-          <p className="text-gray-500 text-sm">{product.department}</p>
-          <div className="mt-2">
-            <span className="text-gray-500 line-through mr-2">{product.oldPrice}</span>
-            <span className="text-[#23856D] font-bold">{product.newPrice}</span>
-          </div>
-          <div className="flex gap-2 justify-center mt-2">
-            {product.colors.map((color, idx) => (
-              <div 
-                key={idx} 
-                className={`w-4 h-4 rounded-full ${color}`}
-              />
-            ))}
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
+    {fetchState === 'FETCHING' ? (
+      Array(8).fill(null).map((_, index) => (
+        <div key={index} className="animate-pulse">
+          <div className="aspect-[3/4] bg-gray-200 rounded mb-4"></div>
+          <div className="space-y-3">
+            <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+            <div className="h-4 bg-gray-200 rounded w-1/2"></div>
           </div>
         </div>
-      </Link>
-    ))}
+      ))
+    ) : fetchState === 'ERROR' ? (
+      <div className="col-span-full text-red-500 text-center">
+        Error loading products. Please try again later.
+      </div>
+    ) : (
+      productList.map((product) => (
+        <BestsellerCard key={product.id} product={product} />
+      ))
+    )}
   </div>
 </section>
 

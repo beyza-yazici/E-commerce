@@ -45,6 +45,11 @@ export const setSort = (sort) => ({
     payload: sort
 });
 
+export const setCurrentProduct = (product) => ({
+    type: types.SET_CURRENT_PRODUCT,
+    payload: product
+});
+
 export const fetchProducts = (params) => {
     return async (dispatch) => {
         dispatch(setFetchState('FETCHING'));
@@ -66,6 +71,24 @@ export const fetchProducts = (params) => {
         } catch (error) {
             dispatch(setFetchState('ERROR'));
             console.error('Error fetching products:', error);
+        }
+    };
+};
+
+export const fetchProductDetail = (productId) => {
+    return async (dispatch) => {
+        dispatch(setFetchState('FETCHING'));
+        try {
+            const response = await fetch(`https://workintech-fe-ecommerce.onrender.com/products/${productId}`);
+            if (!response.ok) {
+                throw new Error('Product fetch failed');
+            }
+            const data = await response.json();
+            dispatch(setCurrentProduct(data));
+            dispatch(setFetchState('FETCHED'));
+        } catch (error) {
+            console.error('Error fetching product:', error);
+            dispatch(setFetchState('ERROR'));
         }
     };
 };
