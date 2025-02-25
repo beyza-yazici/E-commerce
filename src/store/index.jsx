@@ -9,7 +9,7 @@ import categoriesReducer from './reducers/categoriesReducer';
 
 const rootReducer = combineReducers({
     client: clientReducer,
-    product: productReducer,
+    products: productReducer,
     shoppingCart: shoppingCartReducer,
     auth: authReducer,
     categories: categoriesReducer
