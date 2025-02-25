@@ -1,6 +1,5 @@
 import * as types from './actionTypes';
 
-
 export const setCategories = (categories) => ({
     type: types.SET_CATEGORIES,
     payload: categories
@@ -36,12 +35,29 @@ export const setFilter = (filter) => ({
     payload: filter
 });
 
-export const fetchProducts = () => {
+export const setCategoryId = (categoryId) => ({
+    type: types.SET_CATEGORY_ID,
+    payload: categoryId
+});
+
+export const setSort = (sort) => ({
+    type: types.SET_SORT,
+    payload: sort
+});
+
+export const fetchProducts = (params) => {
     return async (dispatch) => {
         dispatch(setFetchState('FETCHING'));
 
         try {
-            const response = await fetch('/products');
+            let url = 'https://workintech-fe-ecommerce.onrender.com/products?';
+            if (params?.categoryId) url += `category=${params.categoryId}&`;
+            if (params?.filter) url += `filter=${params.filter}&`;
+            if (params?.sort) url += `sort=${params.sort}&`;
+            if (params?.limit) url += `limit=${params.limit}&`;
+            if (params?.offset) url += `offset=${params.offset}`;
+
+            const response = await fetch(url);
             const data = await response.json();
             
             dispatch(setProductList(data.products));

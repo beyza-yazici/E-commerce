@@ -4,10 +4,14 @@ const initialState = {
     categories: [],
     productList: [],
     total: 0,
-    limit: 25,
+    fetchState: 'FETCHED', 
+    limit: 10,
     offset: 0,
     filter: '',
-    fetchState: 'NOT_FETCHED'
+    categoryId: null,
+    sort: '',
+    loading: false,
+    error: null
 };
 
 export default function productReducer(state = initialState, action) {
@@ -26,6 +30,16 @@ export default function productReducer(state = initialState, action) {
             return { ...state, offset: action.payload };
         case types.SET_FILTER:
             return { ...state, filter: action.payload };
+        case 'SET_CATEGORY_ID':
+            return { ...state, categoryId: action.payload };
+        case 'SET_SORT':
+            return { ...state, sort: action.payload };
+        case 'FETCH_PRODUCTS_SUCCESS':
+            return { ...state, productList: action.payload, loading: false };
+        case 'FETCH_PRODUCTS_START':
+            return { ...state, loading: true };
+        case 'FETCH_PRODUCTS_ERROR':
+            return { ...state, error: action.payload, loading: false };
         default:
             return state;
     }
