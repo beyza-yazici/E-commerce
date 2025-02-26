@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useParams, useHistory, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Heart, ShoppingCart, Eye, Star } from 'lucide-react';
-import { fetchProductDetail } from '../store/actions/productActions';
+import { fetchProductDetail, fetchProducts } from '../store/actions/productActions';
 import LogoBand from '../components/Logo';
 import ProductTabs from '../components/ProductTabs';
 import BestsellerCard from '../components/BestsellerCard';
@@ -13,94 +13,20 @@ const ProductDetail = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   
-  const { currentProduct, fetchState } = useSelector(state => state.products);
+  const { currentProduct, fetchState, productList } = useSelector(state => state.products);
 
-  const bestsellerProducts = [
-    {
-      id: 1,
-      name: "Graphic Design",
-      description: "English Department",
-      price: 6.48,
-      images: [{ url: "https://images.pexels.com/photos/1021693/pexels-photo-1021693.jpeg", index: 0 }],
-      category_id: 1,
-      gender: "unisex",
-      category_name: "design"
-    },
-    {
-      id: 2,
-      name: "Web Development",
-      description: "Computer Science Department",
-      price: 8.48,
-      images: [{ url: "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg", index: 0 }],
-      category_id: 2,
-      gender: "unisex ",
-      category_name: "development"
-    },
-    {
-      id: 3,
-      name: "Mobile Development",
-      description: "Computer Science Department",
-      price: 9.48,
-      images: [{ url: "https://images.pexels.com/photos/1485781/pexels-photo-1485781.jpeg", index: 0 }],
-      category_id: 3,
-      gender: "unisex",
-      category_name: "development"
-    },
-    {
-      id: 4,
-      name: "Data Science",
-      description: "Computer Science Department",
-      price: 10.48,
-      images: [{ url: "https://images.pexels.com/photos/1126993/pexels-photo-1126993.jpeg", index: 0 }],
-      category_id: 4,
-      gender: "unisex",
-      category_name: "science" 
-    },
-    {
-      id: 1,
-      name: "Graphic Design",
-      description: "English Department",
-      price: 6.48,
-      images: [{ url: "https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg", index: 0 }],
-      category_id: 1,
-      gender: "unisex",
-      category_name: "design"
-    },
-    {
-      id: 2,
-      name: "Web Development",
-      description: "Computer Science Department",
-      price: 8.48,
-      images: [{ url: "https://images.pexels.com/photos/1485781/pexels-photo-1485781.jpeg", index: 0 }],
-      category_id: 2,
-      gender: "unisex ",
-      category_name: "development"
-    },
-    {
-      id: 3,
-      name: "Mobile Development",
-      description: "Computer Science Department",
-      price: 9.48,
-      images: [{ url: "https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg", index: 0 }],
-      category_id: 3,
-      gender: "unisex",
-      category_name: "development"
-    },
-    {
-      id: 4,
-      name: "Data Science",
-      description: "Computer Science Department",
-      price: 10.48,
-      images: [{ url: "https://images.pexels.com/photos/1485781/pexels-photo-1485781.jpeg", index: 0 }],
-      category_id: 4,
-      gender: "unisex",
-      category_name: "science" 
-    }
-  ];
 
   useEffect(() => {
     dispatch(fetchProductDetail(productId));
   }, [dispatch, productId]);
+
+  useEffect(() => {
+    dispatch(fetchProducts({
+      limit: 8,
+      offset: 0,
+      sort: 'rating:desc' 
+    }));
+  }, [dispatch]);
 
   // Loading state
   if (fetchState === 'FETCHING') {
@@ -226,11 +152,11 @@ const ProductDetail = () => {
        <div className="mt-16">
         <h2 className="text-2xl font-bold mb-8">BESTSELLER PRODUCTS</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
-          {bestsellerProducts.map((product) => (
+          {productList.map((product) => (
             <BestsellerCard 
               key={product.id} 
               product={product}
-            />
+            /> 
           ))}
         </div>
       </div>
