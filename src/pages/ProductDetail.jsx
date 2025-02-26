@@ -6,6 +6,7 @@ import { fetchProductDetail, fetchProducts } from '../store/actions/productActio
 import LogoBand from '../components/Logo';
 import ProductTabs from '../components/ProductTabs';
 import BestsellerCard from '../components/BestsellerCard';
+import { addToCart } from '../store/actions/cartActions';
 
 const ProductDetail = () => {
   // eslint-disable-next-line no-unused-vars
@@ -14,7 +15,8 @@ const ProductDetail = () => {
   const dispatch = useDispatch();
   
   const { currentProduct, fetchState, productList } = useSelector(state => state.products);
-
+  // eslint-disable-next-line no-unused-vars
+  const cart = useSelector(state => state.cart.cart);
 
   useEffect(() => {
     dispatch(fetchProductDetail(productId));
@@ -27,6 +29,19 @@ const ProductDetail = () => {
       sort: 'rating:desc' 
     }));
   }, [dispatch]);
+
+  // Add to cart handler
+  const handleAddToCart = () => {
+    if (currentProduct) {
+      const productToAdd = {
+        id: currentProduct.id,
+        name: currentProduct.name,
+        price: currentProduct.price,
+        image: currentProduct.images[0].url
+    }
+    dispatch(addToCart(productToAdd));
+  }
+};
 
   // Loading state
   if (fetchState === 'FETCHING') {
@@ -129,27 +144,31 @@ const ProductDetail = () => {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex items-center gap-4">
-            <button className="bg-[#23A6F0] text-white px-8 py-3 rounded hover:bg-blue-600 transition-colors">
-              Select Options
-            </button>
-            <button className="p-3 border rounded hover:bg-gray-100 transition-colors">
-              <Heart size={20} className="text-[#23A6F0]" />
-            </button>
-            <button className="p-3 border rounded hover:bg-gray-100 transition-colors">
-              <Eye size={20} className="text-[#23A6F0]" />
-            </button>
-            <button className="p-3 border rounded hover:bg-gray-100 transition-colors">
-              <ShoppingCart size={20} className="text-[#23A6F0]" />
-            </button>
-          </div>
+<div className="flex items-center gap-4">
+  <button className="bg-[#23A6F0] text-white px-8 py-3 rounded hover:bg-blue-600 transition-colors cursor-pointer">
+    Select Options
+  </button>
+  <button className="p-3 border rounded hover:bg-gray-100 transition-colors cursor-pointer">
+    <Heart size={20} className="text-[#23A6F0]" />
+  </button>
+  <button className="p-3 border rounded hover:bg-gray-100 transition-colors cursor-pointer">
+    <Eye size={20} className="text-[#23A6F0]" />
+  </button>
+  <button 
+    onClick={handleAddToCart}
+    className="p-3 border rounded hover:bg-gray-100 transition-colors cursor-pointer"
+    title="Add to Cart"
+  >
+    <ShoppingCart size={20} className="text-[#23A6F0]" />
+  </button>
+</div>
         </div>
       </div>
 
       <ProductTabs currentProduct={currentProduct} />
 
-       {/* Bestseller Products */}
-       <div className="mt-16">
+      {/* Bestseller Products */}
+      <div className="mt-16">
         <h2 className="text-2xl font-bold mb-8">BESTSELLER PRODUCTS</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
           {productList.map((product) => (
