@@ -6,13 +6,15 @@ import productReducer from './reducers/productReducer';
 import shoppingCartReducer from './reducers/shoppingCartReducer';
 import authReducer from './reducers/authReducer';
 import categoriesReducer from './reducers/categoriesReducer';
+import cartReducer from './reducers/cartReducer';
 
 const rootReducer = combineReducers({
     client: clientReducer,
     products: productReducer,
     shoppingCart: shoppingCartReducer,
     auth: authReducer,
-    categories: categoriesReducer
+    categories: categoriesReducer,
+    cart: cartReducer
 });
 
 const store = createStore(
