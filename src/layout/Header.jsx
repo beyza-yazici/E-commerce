@@ -13,9 +13,12 @@ const Header = () => {
   const dispatch = useDispatch();
   const { isAuthenticated, user, isLoading } = useSelector(state => state.auth);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [cartCount] = useState(0);
+  const cart = useSelector(state => state.cart.cart);
   const [wishlistCount] = useState(0);
+  const [isCartDropdownVisible, setIsCartDropdownVisible] = useState(false);
   const [gravatarUrl, setGravatarUrl] = useState('');
+
+  const cartCount = cart.reduce((total, item) => total + item.count, 0);
 
   const handleCategoryClick = (category) => {
     history.push(`/shop/${category.gender}/${category.name.toLowerCase()}/${category.id}`);
@@ -116,6 +119,15 @@ const Header = () => {
     );
   };
 
+  const getProductImage = (product) => {
+    if (product.images && product.images.length > 0) {
+      return product.images[0].url;
+    } else if (product.image) {
+      return product.image;
+    }
+    return 'default-image-url.jpg'; // varsayılan bir resim URL'si
+  };
+
   return (
     <header className="border-b">
       {/* Desktop Header */}
@@ -139,24 +151,77 @@ const Header = () => {
           {renderUserInfo()}
           
           <div className="flex items-center gap-4">
-            <Search size={20} className="cursor-pointer text-[#23A6F0]" />
-            <div className="relative">
-              <ShoppingCart size={20} className="text-[#23A6F0]" />
-              {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-[#23A6F0] text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                  {cartCount}
-                </span>
-              )}
-            </div>
-            <div className="relative">
-              <Heart size={20} className="text-[#23A6F0]" />
-              {wishlistCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-[#23A6F0] text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                  {wishlistCount}
-                </span>
-              )}
+  <Search size={20} className="cursor-pointer text-[#23A6F0]" />
+  <div 
+    className="relative"
+    onMouseEnter={() => setIsCartDropdownVisible(true)}
+    onMouseLeave={() => setIsCartDropdownVisible(false)}
+  >
+    {/* Cart Icon and Dropdown Container */}
+    <div className="flex flex-col">
+      {/* Cart Icon */}
+      <div className="cursor-pointer">
+        <ShoppingCart size={20} className="text-[#23A6F0]" />
+        {cartCount > 0 && (
+          <span className="absolute -top-2 -right-2 bg-[#23A6F0] text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+            {cartCount}
+          </span>
+        )}
+      </div>
+
+      {/* Cart Dropdown */}
+      {isCartDropdownVisible && cart.length > 0 && (
+        <div className="absolute top-full right-0 w-80 bg-white shadow-lg rounded-lg z-50">
+          <div className="py-2">
+            {cart.map(item => (
+              <div key={item.product.id} className="p-4 border-b">
+                <div className="flex items-center">
+                  <img 
+                    src={getProductImage(item.product)}
+                    alt={item.product.name} 
+                    className="w-16 h-16 object-cover"
+                    onError={(e) => {
+                      e.target.src = 'default-image-url.jpg';
+                    }}
+                  />
+                  <div className="ml-4">
+                    <p className="text-sm font-medium">{item.product.name}</p>
+                    <p className="text-sm text-gray-600">
+                      Adet: {item.count}
+                    </p>
+                    <p className="text-sm font-bold">
+                      ${typeof item.product.price === 'number' ? item.product.price.toFixed(2) : item.product.price}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+            
+            <div className="p-4">
+              <div className="mb-4">
+                <p className="text-sm font-medium">
+                  Toplam: ${cart.reduce((total, item) => 
+                    total + (item.product.price * item.count), 0).toFixed(2)}
+                </p>
+              </div>
+              <button className="w-full bg-[#23A6F0] text-white py-2 rounded hover:bg-blue-600 transition-colors">
+                Siparişi Tamamla
+              </button>
             </div>
           </div>
+        </div>
+      )}
+    </div>
+  </div>
+  <div className="relative">
+    <Heart size={20} className="text-[#23A6F0]" />
+    {wishlistCount > 0 && (
+      <span className="absolute -top-2 -right-2 bg-[#23A6F0] text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+        {wishlistCount}
+      </span>
+    )}
+  </div>
+</div>
         </div>
       </div>
 
@@ -189,13 +254,13 @@ const Header = () => {
             )}
             <Search size={20} className="text-[#23A6F0]" />
             <div className="relative">
-              <ShoppingCart size={20} className="text-[#23A6F0]" />
-              {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-[#23A6F0] text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                  {cartCount}
-                </span>
-              )}
-            </div>
+            <ShoppingCart size={20} className="text-[#23A6F0]" />
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-[#23A6F0] text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                {cartCount}
+              </span>
+            )}
+          </div>
             <button 
               onClick={() => setIsMenuOpen(!isMenuOpen)} 
               className="text-[#23A6F0]"
