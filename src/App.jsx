@@ -10,6 +10,7 @@ import Contact from "./pages/Contact";
 import About from "./pages/About";
 import TopCategories from "./components/TopCategories";
 import ShoppingPage from "./pages/ShoppingPage";
+import CartPage from "./pages/CartPage";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/about" component={About} />
           <Route exact path="/" component={TopCategories} />
           <Route exact path="/shop/:gender/:categoryName/:categoryId" component={ShoppingPage} />
+          <Route path="/cart" component={CartPage} />
         </Switch>
       </PageContent> 
       <ToastContainer />
