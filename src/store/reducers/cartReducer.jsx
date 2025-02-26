@@ -39,6 +39,42 @@ const cartReducer = (state = initialState, action) => {
       };
     }
 
+    case 'INCREMENT_PRODUCT':
+      return {
+        ...state,
+        cart: state.cart.map(item =>
+          item.product.id === action.payload
+            ? { ...item, count: item.count + 1 }
+            : item
+        )
+      };
+
+    case 'DECREMENT_PRODUCT':
+      return {
+        ...state,
+        cart: state.cart.map(item =>
+          item.product.id === action.payload && item.count > 1
+            ? { ...item, count: item.count - 1 }
+            : item
+        )
+      };
+
+    case 'REMOVE_FROM_CART':
+      return {
+        ...state,
+        cart: state.cart.filter(item => item.product.id !== action.payload)
+      };
+
+    case 'TOGGLE_PRODUCT_CHECK':
+      return {
+        ...state,
+        cart: state.cart.map(item =>
+          item.product.id === action.payload
+            ? { ...item, checked: !item.checked }
+            : item
+        )
+      };
+
     default:
       return state;
   }
