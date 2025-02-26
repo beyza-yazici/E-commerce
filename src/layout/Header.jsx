@@ -25,6 +25,11 @@ const Header = () => {
     setIsMenuOpen(false); // mobil menüyü kapat
   };
 
+  const navigateToCart = () => {
+    history.push('/cart');
+    setIsCartDropdownVisible(false); // Close dropdown when navigating
+  };
+
   const shopCategories = {
     women: {
       title: "Kadın",
@@ -151,66 +156,72 @@ const Header = () => {
           {renderUserInfo()}
           
           <div className="flex items-center gap-4">
-  <Search size={20} className="cursor-pointer text-[#23A6F0]" />
-  <div 
-    className="relative"
-    onMouseEnter={() => setIsCartDropdownVisible(true)}
-    onMouseLeave={() => setIsCartDropdownVisible(false)}
-  >
-    {/* Cart Icon and Dropdown Container */}
-    <div className="flex flex-col">
-      {/* Cart Icon */}
-      <div className="cursor-pointer">
-        <ShoppingCart size={20} className="text-[#23A6F0]" />
-        {cartCount > 0 && (
-          <span className="absolute -top-2 -right-2 bg-[#23A6F0] text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-            {cartCount}
-          </span>
-        )}
-      </div>
+      <Search size={20} className="cursor-pointer text-[#23A6F0]" />
+      <div 
+        className="relative"
+        onMouseEnter={() => setIsCartDropdownVisible(true)}
+        onMouseLeave={() => setIsCartDropdownVisible(false)}
+      >
+        {/* Cart Icon and Dropdown Container */}
+        <div className="flex flex-col">
+          {/* Cart Icon */}
+          <div 
+            className="cursor-pointer"
+            onClick={navigateToCart}
+          >
+            <ShoppingCart size={20} className="text-[#23A6F0]" />
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-[#23A6F0] text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                {cartCount}
+              </span>
+            )}
+          </div>
 
-      {/* Cart Dropdown */}
-      {isCartDropdownVisible && cart.length > 0 && (
-        <div className="absolute top-full right-0 w-80 bg-white shadow-lg rounded-lg z-50">
-          <div className="py-2">
-            {cart.map(item => (
-              <div key={item.product.id} className="p-4 border-b">
-                <div className="flex items-center">
-                  <img 
-                    src={getProductImage(item.product)}
-                    alt={item.product.name} 
-                    className="w-16 h-16 object-cover"
-                    onError={(e) => {
-                      e.target.src = 'default-image-url.jpg';
-                    }}
-                  />
-                  <div className="ml-4">
-                    <p className="text-sm font-medium">{item.product.name}</p>
-                    <p className="text-sm text-gray-600">
-                      Adet: {item.count}
-                    </p>
-                    <p className="text-sm font-bold">
-                      ${typeof item.product.price === 'number' ? item.product.price.toFixed(2) : item.product.price}
+          {/* Cart Dropdown */}
+          {isCartDropdownVisible && cart.length > 0 && (
+            <div className="absolute top-full right-0 w-80 bg-white shadow-lg rounded-lg z-50">
+              <div className="py-2">
+                {cart.map(item => (
+                  <div key={item.product.id} className="p-4 border-b">
+                    <div className="flex items-center">
+                      <img 
+                        src={getProductImage(item.product)}
+                        alt={item.product.name} 
+                        className="w-16 h-16 object-cover"
+                        onError={(e) => {
+                          e.target.src = 'default-image-url.jpg';
+                        }}
+                      />
+                      <div className="ml-4">
+                        <p className="text-sm font-medium">{item.product.name}</p>
+                        <p className="text-sm text-gray-600">
+                          Adet: {item.count}
+                        </p>
+                        <p className="text-sm font-bold">
+                          ${typeof item.product.price === 'number' ? item.product.price.toFixed(2) : item.product.price}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                
+                <div className="p-4">
+                  <div className="mb-4">
+                    <p className="text-sm font-medium">
+                      Toplam: ${cart.reduce((total, item) => 
+                        total + (item.product.price * item.count), 0).toFixed(2)}
                     </p>
                   </div>
+                  <button 
+                    className="w-full bg-[#23A6F0] text-white py-2 rounded hover:bg-blue-600 transition-colors"
+                    onClick={navigateToCart} 
+                  >
+                    Siparişi Tamamla
+                  </button>
                 </div>
               </div>
-            ))}
-            
-            <div className="p-4">
-              <div className="mb-4">
-                <p className="text-sm font-medium">
-                  Toplam: ${cart.reduce((total, item) => 
-                    total + (item.product.price * item.count), 0).toFixed(2)}
-                </p>
-              </div>
-              <button className="w-full bg-[#23A6F0] text-white py-2 rounded hover:bg-blue-600 transition-colors">
-                Siparişi Tamamla
-              </button>
             </div>
-          </div>
-        </div>
-      )}
+          )}
     </div>
   </div>
   <div className="relative">
