@@ -1,10 +1,9 @@
 // src/components/auth/PrivateRoute.jsx
 import { Route, Redirect } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const isAuthenticated = localStorage.getItem('token');
 
   return (
     <Route
@@ -15,7 +14,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
         ) : (
           <Redirect
             to={{
-              pathname: "/login",
+              pathname: "/auth",
               state: { from: props.location }
             }}
           />
