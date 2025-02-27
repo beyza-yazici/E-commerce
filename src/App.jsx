@@ -11,8 +11,8 @@ import About from "./pages/About";
 import TopCategories from "./components/TopCategories";
 import ShoppingPage from "./pages/ShoppingPage";
 import CartPage from "./pages/CartPage";
-import AddressPage from "./address/AddressPage";
 import PrivateRoute from "./components/auth/PrivateRoute";
+import OrderPage from "./pages/OrderPage";
 
 function App() {
   return (
@@ -27,7 +27,7 @@ function App() {
           <Route exact path="/" component={TopCategories} />
           <Route exact path="/shop/:gender/:categoryName/:categoryId" component={ShoppingPage} />
           <Route path="/cart" component={CartPage} />
-          <PrivateRoute path="/address" component={AddressPage} />
+          <PrivateRoute path="/address" component={OrderPage} />
         </Switch>
       </PageContent> 
       <ToastContainer />
