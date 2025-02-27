@@ -7,6 +7,7 @@ import shoppingCartReducer from './reducers/shoppingCartReducer';
 import authReducer from './reducers/authReducer';
 import categoriesReducer from './reducers/categoriesReducer';
 import cartReducer from './reducers/cartReducer';
+import addressReducer from './reducers/addressReducer';
 
 const rootReducer = combineReducers({
     client: clientReducer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     shoppingCart: shoppingCartReducer,
     auth: authReducer,
     categories: categoriesReducer,
-    cart: cartReducer
+    cart: cartReducer,
+    address: addressReducer
 });
 
 const store = createStore(
