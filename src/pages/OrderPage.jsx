@@ -6,6 +6,7 @@ import { fetchAddresses } from '../store/actions/addressActions';
 import PropTypes from 'prop-types';
 import AddressForm from '../components/AddressForm';
 import { AddressCard } from '../components/AddressCard';
+import PaymentSection from '../components/PaymentSection';
 
 const OrderPage = () => {
   const dispatch = useDispatch();
@@ -137,6 +138,8 @@ const OrderPage = () => {
             }}
           />
         )}
+
+            <PaymentSection />
       </div>
     </div>
   );
