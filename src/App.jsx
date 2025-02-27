@@ -13,6 +13,7 @@ import ShoppingPage from "./pages/ShoppingPage";
 import CartPage from "./pages/CartPage";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import OrderPage from "./pages/OrderPage";
+import OrderSuccess from "./pages/OrderSuccess";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route exact path="/shop/:gender/:categoryName/:categoryId" component={ShoppingPage} />
           <Route path="/cart" component={CartPage} />
           <PrivateRoute path="/address" component={OrderPage} />
+          <Route path="/order-success" component={OrderSuccess} />
         </Switch>
       </PageContent> 
       <ToastContainer />
