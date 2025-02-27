@@ -1,7 +1,11 @@
 // components/OrderSummaryBox.js
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 
 const OrderSummaryBox = ({ cart }) => {
+
+    const history = useHistory();
+
     const productsTotal = cart
       .filter(item => item.checked)
       .reduce((total, item) => total + item.product.price * item.count, 0);
@@ -9,6 +13,10 @@ const OrderSummaryBox = ({ cart }) => {
     const shippingCost = 29.99;
     const discount = productsTotal >= 150 ? -29.99 : 0; // Shipping discount if total >= 150 TL
     const grandTotal = productsTotal + shippingCost + discount;
+
+    const handleCheckout = () => {
+      history.push('/address'); // React Router 5'te history.push kullanılır
+  };
   
     return (
       <div className="bg-white rounded-lg shadow p-4 sticky top-4">
@@ -42,7 +50,10 @@ const OrderSummaryBox = ({ cart }) => {
           </div>
         </div>
   
-        <button className="w-full bg-[#F27A1A] text-white py-3 rounded-md mt-4 hover:bg-[#d86c15] transition-colors">
+        <button 
+          onClick={handleCheckout}
+          className="w-full bg-[#F27A1A] text-white py-3 rounded-md mt-4 hover:bg-[#d86c15] transition-colors"
+        >
           Sepeti Onayla
         </button>
   

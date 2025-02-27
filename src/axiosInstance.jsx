@@ -22,5 +22,16 @@ axiosInstance.interceptors.request.use(
     }
 );
 
+axiosInstance.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error.response && error.response.status === 401) {
+        // Token geçersiz olduğunda
+        localStorage.removeItem('token'); // Token'ı sil
+        window.location.href = '/login'; // Login sayfasına yönlendir
+      }
+      return Promise.reject(error);
+    }
+  );
 
 export default axiosInstance;

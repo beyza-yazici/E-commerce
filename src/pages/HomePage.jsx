@@ -12,7 +12,7 @@ import BestsellerCard from "../components/BestsellerCard";
 function HomePage() {
 
   const dispatch = useDispatch();
-  // eslint-disable-next-line no-unused-vars
+  
   const { productList, fetchState } = useSelector(state => state.products);
 
   useEffect(() => {
