@@ -14,6 +14,7 @@ import CartPage from "./pages/CartPage";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import OrderPage from "./pages/OrderPage";
 import OrderSuccess from "./pages/OrderSuccess";
+import PreviousOrders from "./pages/PreviousOrders";
 
 function App() {
   return (
@@ -29,6 +30,10 @@ function App() {
           <Route exact path="/shop/:gender/:categoryName/:categoryId" component={ShoppingPage} />
           <Route path="/cart" component={CartPage} />
           <PrivateRoute path="/address" component={OrderPage} />
+          <PrivateRoute 
+          path="/order" 
+          component={PreviousOrders} 
+        />
           <Route path="/order-success" component={OrderSuccess} />
         </Switch>
       </PageContent> 

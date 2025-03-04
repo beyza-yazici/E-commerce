@@ -9,6 +9,7 @@ import categoriesReducer from './reducers/categoriesReducer';
 import cartReducer from './reducers/cartReducer';
 import addressReducer from './reducers/addressReducer';
 import cardReducer from './reducers/addressReducer';
+import orderReducer from './reducers/addressReducer';
 
 const rootReducer = combineReducers({
     client: clientReducer,
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
     categories: categoriesReducer,
     cart: cartReducer,
     address: addressReducer,
-    card: cardReducer
+    card: cardReducer,
+    order: orderReducer,
 });
 
 const store = createStore(
