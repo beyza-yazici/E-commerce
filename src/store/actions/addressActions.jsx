@@ -30,11 +30,22 @@ export const fetchAddresses = () => async dispatch => {
 };
 
 export const addAddress = (addressData) => async dispatch => {
+  dispatch({ type: 'ADD_ADDRESS_REQUEST' });
+  
   try {
-    const response = await axiosInstance.post('/user/address', addressData);
-    dispatch({ type: 'ADD_ADDRESS', payload: response.data });
+    const response = await axiosInstance.post('/user/address', addressData, {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+    
+    dispatch({ type: 'ADD_ADDRESS_SUCCESS', payload: response.data });
     return response.data;
   } catch (error) {
+    dispatch({ 
+      type: 'ADD_ADDRESS_FAILURE', 
+      payload: error.response?.data?.message || 'Bir hata oluştu'
+    });
     console.error('Error adding address:', error);
     throw error;
   }

@@ -30,7 +30,7 @@ export const fetchRoles = () => async (dispatch, getState) => {
     // Only fetch if roles are empty
     if (roles.length === 0) {
         try {
-            const response = await axiosInstance.get('https://workintech-fe-ecommerce.onrender.com/roles');
+            const response = await axiosInstance.get('/roles');
             dispatch(setRoles(response.data));
         } catch (error) {
             console.error('Error fetching roles:', error);
@@ -45,12 +45,9 @@ export const loginUser = (credentials, rememberMe) => async (dispatch) => {
             password: credentials.password
         });
 
-        console.log('Login response:', response.data); // Debug için
-
-        // API'den gelen user ve token bilgisini al
         const { token, user } = response.data;
 
-        // Token'ı kaydet
+        // Token'ı kaydet (rememberMe true ise)
         if (rememberMe) {
             localStorage.setItem('token', token);
         }
@@ -64,10 +61,32 @@ export const loginUser = (credentials, rememberMe) => async (dispatch) => {
         };
 
     } catch (error) {
-        console.error('Login error:', error); // Debug için
+        console.error('Login error:', error);
         return { 
             success: false, 
-            error: error.response?.data?.message || 'Login failed' 
+            error: error.response?.data?.message || 'Giriş başarısız' 
         };
     }
+};
+
+// Kullanıcı durumunu kontrol etmek için yeni bir action
+export const checkAuthStatus = () => async (dispatch) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+        try {
+            const response = await axiosInstance.get('/verify');
+            dispatch(setUser(response.data));
+        // eslint-disable-next-line no-unused-vars
+        } catch (error) {
+            localStorage.removeItem('token');
+            dispatch(setUser(null));
+        }
+    }
+};
+
+
+// Logout action'ı
+export const logout = () => (dispatch) => {
+    localStorage.removeItem('token');
+    dispatch(setUser(null));
 };

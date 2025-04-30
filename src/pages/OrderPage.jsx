@@ -1,4 +1,3 @@
-// src/pages/OrderPage.js
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Plus } from 'lucide-react';
@@ -10,19 +9,22 @@ import PaymentSection from '../components/PaymentSection';
 
 const OrderPage = () => {
   const dispatch = useDispatch();
-  const [showAddressForm, setShowAddressForm] = useState(false);
+  const [showShippingForm, setShowShippingForm] = useState(false);
+  const [showBillingForm, setShowBillingForm] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState(null);
-  // eslint-disable-next-line no-unused-vars
-  const [address, setAddress] = useState([]);
+  const [addresses, setAddresses] = useState([]);
 
-  // eslint-disable-next-line no-unused-vars
-  const addresses = useSelector(state => state.address.addresses);
+  const addressesFromRedux = useSelector(state => state.address.addresses);
   const loading = useSelector(state => state.address.loading);
   const error = useSelector(state => state.address.error);
 
   const handleEditAddress = (address) => {
     setSelectedAddress(address);
-    setShowAddressForm(true);
+    if (address.type === 'shipping') {
+      setShowShippingForm(true);
+    } else {
+      setShowBillingForm(true);
+    }
   };
 
   const handleDeleteAddress = (addressId) => {
@@ -30,12 +32,16 @@ const OrderPage = () => {
     console.log(`Deleting address with id: ${addressId}`);
   };
 
-  const shippingAddresses = address.filter(addr => addr.type === 'shipping');
-  const billingAddresses = address.filter(addr => addr.type === 'billing');
+  const shippingAddresses = addresses.filter(addr => addr.type === 'shipping');
+  const billingAddresses = addresses.filter(addr => addr.type === 'billing');
 
   useEffect(() => {
     dispatch(fetchAddresses());
   }, [dispatch]);
+
+  useEffect(() => {
+    setAddresses(addressesFromRedux);
+  }, [addressesFromRedux]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -52,38 +58,40 @@ const OrderPage = () => {
         <section>
           <h1 className="text-2xl font-semibold mb-4">Teslimat Adresi</h1>
           
-          {shippingAddresses.length === 0 ? (
-            <button
-              onClick={() => {
+          {showShippingForm ? (
+            <AddressForm
+              address={selectedAddress}
+              type="shipping"
+              onClose={() => {
+                setShowShippingForm(false);
                 setSelectedAddress(null);
-                setShowAddressForm(true);
               }}
-              className="flex items-center justify-center gap-2 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-orange-500 w-full"
-            >
-              <Plus className="w-5 h-5" />
-              <span>Yeni Adres Ekle</span>
-            </button>
+            />
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {shippingAddresses.map(address => (
-                <AddressCard
-                  key={address.id}
-                  address={address}
-                  onEdit={() => handleEditAddress(address)}
-                  onDelete={() => handleDeleteAddress(address.id)}
-                />
-              ))}
+            <>
+              {shippingAddresses.length > 0 && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  {shippingAddresses.map(address => (
+                    <AddressCard
+                      key={address.id}
+                      address={address}
+                      onEdit={() => handleEditAddress(address)}
+                      onDelete={() => handleDeleteAddress(address.id)}
+                    />
+                  ))}
+                </div>
+              )}
               <button
                 onClick={() => {
                   setSelectedAddress(null);
-                  setShowAddressForm(true);
+                  setShowShippingForm(true);
                 }}
-                className="flex items-center justify-center gap-2 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-orange-500"
+                className="flex items-center justify-center gap-2 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-orange-500 w-full"
               >
                 <Plus className="w-5 h-5" />
-                <span>Yeni Adres Ekle</span>
+                <span>Yeni Teslimat Adresi Ekle</span>
               </button>
-            </div>
+            </>
           )}
         </section>
 
@@ -91,63 +99,52 @@ const OrderPage = () => {
         <section>
           <h1 className="text-2xl font-semibold mb-4">Fatura Adresi</h1>
           
-          {billingAddresses.length === 0 ? (
-            // Fatura adresi yoksa "Yeni Adres Ekle" butonu
-            <button
-              onClick={() => {
+          {showBillingForm ? (
+            <AddressForm
+              address={selectedAddress}
+              type="billing"
+              onClose={() => {
+                setShowBillingForm(false);
                 setSelectedAddress(null);
-                setShowAddressForm(true);
               }}
-              className="flex items-center justify-center gap-2 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-orange-500 w-full"
-            >
-              <Plus className="w-5 h-5" />
-              <span>Yeni Adres Ekle</span>
-            </button>
+            />
           ) : (
-            // Fatura adresleri listesi
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {billingAddresses.map(address => (
-                <AddressCard
-                  key={address.id}
-                  address={address}
-                  onEdit={() => handleEditAddress(address)}
-                  onDelete={() => handleDeleteAddress(address.id)}
-                />
-              ))}
+            <>
+              {billingAddresses.length > 0 && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  {billingAddresses.map(address => (
+                    <AddressCard
+                      key={address.id}
+                      address={address}
+                      onEdit={() => handleEditAddress(address)}
+                      onDelete={() => handleDeleteAddress(address.id)}
+                    />
+                  ))}
+                </div>
+              )}
               <button
                 onClick={() => {
                   setSelectedAddress(null);
-                  setShowAddressForm(true);
+                  setShowBillingForm(true);
                 }}
-                className="flex items-center justify-center gap-2 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-orange-500"
+                className="flex items-center justify-center gap-2 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-orange-500 w-full"
               >
                 <Plus className="w-5 h-5" />
-                <span>Yeni Adres Ekle</span>
+                <span>Yeni Fatura Adresi Ekle</span>
               </button>
-            </div>
+            </>
           )}
         </section>
 
-        {/* Address Form Modal */}
-        {showAddressForm && (
-          <AddressForm
-            address={selectedAddress}
-            onClose={() => {
-              setShowAddressForm(false);
-              setSelectedAddress(null);
-            }}
-          />
-        )}
-
-            <PaymentSection />
+        <PaymentSection />
       </div>
     </div>
   );
 };
 
-AddressForm.propTypes = {
+OrderPage.propTypes = {
   address: PropTypes.object,
-  onClose: PropTypes.func.isRequired,
+  onClose: PropTypes.func,
 };
 
 export default OrderPage;

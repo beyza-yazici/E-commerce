@@ -24,17 +24,6 @@ const teamMembers = [
       instagram: "#",
       twitter: "#"
     }
-  },
-  {
-    id: 3,
-    image: "https://media.licdn.com/dms/image/v2/D4D35AQEpxXf00pI2Pg/profile-framedphoto-shrink_800_800/profile-framedphoto-shrink_800_800/0/1738135517925?e=1740693600&v=beta&t=-FtiEJVn8-gQZOr8WDH-3gLnnMMWhsJdVm7stBlWiDk",
-    username: "Sinem Sevimlikurt",
-    profession: "Full Stack Developer",
-    social: {
-      facebook: "#",
-      instagram: "#",
-      twitter: "#"
-    }
   }
 ];
 

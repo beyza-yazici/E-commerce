@@ -1,86 +1,80 @@
 // src/store/actions/authActions.js
 import axiosInstance from '../../axiosInstance';
+import { LOGIN_FAILURE, LOGIN_START, LOGIN_SUCCESS, LOGOUT, VERIFY_TOKEN_FAILURE, VERIFY_TOKEN_START, VERIFY_TOKEN_SUCCESS } from './actionTypes';
 
-// Action Types
-export const AUTH_START = 'AUTH_START';
-export const AUTH_SUCCESS = 'AUTH_SUCCESS';
-export const AUTH_FAIL = 'AUTH_FAIL';
-export const AUTH_LOGOUT = 'AUTH_LOGOUT';
 
-// Action Creators
-export const authStart = () => ({
-  type: AUTH_START
-});
-
-export const authSuccess = (userData) => ({
-  type: AUTH_SUCCESS,
-  payload: userData
-});
-
-export const authFail = (error) => ({
-  type: AUTH_FAIL,
-  payload: error
-});
-
-export const authLogout = () => {
-  localStorage.removeItem('token');
-  delete axiosInstance.defaults.headers.Authorization;
-  return { type: AUTH_LOGOUT };
-};
-
-// Login action
-export const login = (credentials, rememberMe) => async (dispatch) => {
-  dispatch(authStart());
-
+export const loginUser = (credentials) => async (dispatch) => {
+  dispatch({ type: LOGIN_START });
   try {
-    const response = await axiosInstance.post('/login', credentials);
-    const { token, ...userData } = response.data;
-
-    if (rememberMe) {
-      localStorage.setItem('token', token);
-    }
-
-    axiosInstance.defaults.headers.Authorization = token;
-    dispatch(authSuccess(userData));
-    return { success: true };
+    const response = await axiosInstance.post('/auth/login', credentials);
+    const { token, user } = response.data;
+    
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user));
+    
+    dispatch({ 
+      type: LOGIN_SUCCESS, 
+      payload: { token, user } 
+    });
+    return response.data;
   } catch (error) {
-    dispatch(authFail(error.response?.data?.message || 'Login failed'));
-    return { 
-      success: false, 
-      error: error.response?.data?.message || 'Login failed'
-    };
+    dispatch({ 
+      type: LOGIN_FAILURE, 
+      payload: error.response?.data?.message || 'Giriş başarısız' 
+    });
+    throw error;
   }
 };
 
-// Verify token
 export const verifyToken = () => async (dispatch) => {
-  const token = localStorage.getItem('token');
+  dispatch({ type: VERIFY_TOKEN_START });
   
+  const token = localStorage.getItem('token');
   if (!token) {
-    dispatch(authFail(null));
+    dispatch({ type: VERIFY_TOKEN_FAILURE });
     return;
   }
 
-  dispatch(authStart());
-  axiosInstance.defaults.headers.Authorization = token;
-
   try {
-    const response = await axiosInstance.get('/verify');
-    dispatch(authSuccess(response.data));
+    const response = await axiosInstance.get('/auth/verify');
+    const user = response.data;
     
-    // Token yenilenirse güncelle
-    if (response.data.token) {
-      localStorage.setItem('token', response.data.token);
-      axiosInstance.defaults.headers.Authorization = response.data.token;
-    }
+    dispatch({
+      type: VERIFY_TOKEN_SUCCESS,
+      payload: { token, user }
+    });
+  // eslint-disable-next-line no-unused-vars
   } catch (error) {
     localStorage.removeItem('token');
-    delete axiosInstance.defaults.headers.Authorization;
-    dispatch(authFail(error.response?.data?.message));
+    localStorage.removeItem('user');
+    dispatch({ type: VERIFY_TOKEN_FAILURE });
   }
 };
 
-// Logout action
-export const logout = () => (dispatch) => {
-  dispatch(authLogout());
+export const checkAuthStatus = () => (dispatch) => {
+  const token = localStorage.getItem('token');
+  const userStr = localStorage.getItem('user');
+
+  if (token && userStr) {
+    try {
+      const user = JSON.parse(userStr);
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: { token, user }
+      });
+    // eslint-disable-next-line no-unused-vars
+    } catch (error) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      dispatch({ type: LOGOUT });
+    }
+  } else {
+    dispatch({ type: LOGOUT });
+  }
+};
+
+export const logoutUser = () => (dispatch) => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  dispatch({ type: LOGOUT });
 };

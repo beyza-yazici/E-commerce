@@ -1,4 +1,5 @@
 import * as types from './actionTypes';
+import axiosInstance from '../../axiosInstance';
 
 export const setCategories = (categories) => ({
     type: types.SET_CATEGORIES,
@@ -55,18 +56,17 @@ export const fetchProducts = (params) => {
         dispatch(setFetchState('FETCHING'));
 
         try {
-            let url = 'https://workintech-fe-ecommerce.onrender.com/products?';
+            let url = '/products?';
             if (params?.categoryId) url += `category=${params.categoryId}&`;
             if (params?.filter) url += `filter=${params.filter}&`;
             if (params?.sort) url += `sort=${params.sort}&`;
             if (params?.limit) url += `limit=${params.limit}&`;
             if (params?.offset) url += `offset=${params.offset}`;
 
-            const response = await fetch(url);
-            const data = await response.json();
+            const response = await axiosInstance.get(url);
             
-            dispatch(setProductList(data.products));
-            dispatch(setTotal(data.total));
+            dispatch(setProductList(response.data.products));
+            dispatch(setTotal(response.data.total));
             dispatch(setFetchState('FETCHED'));
         } catch (error) {
             dispatch(setFetchState('ERROR'));
