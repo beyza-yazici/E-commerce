@@ -1,15 +1,18 @@
 // src/components/auth/PrivateRoute.jsx
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const isAuthenticated = localStorage.getItem('token');
+  const { isAuthenticated, isLoading } = useSelector(state => state.auth);
 
   return (
     <Route
       {...rest}
       render={props =>
-        isAuthenticated ? (
+        isLoading ? (
+          <div>Loading...</div>
+        ) : isAuthenticated ? (
           <Component {...props} />
         ) : (
           <Redirect

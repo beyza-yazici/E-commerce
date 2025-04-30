@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+// src/App.jsx
+import { Route, Switch } from "react-router-dom";
 import './App.css';
 import PageContent from "./layout/PageContent";
 import HomePage from "./pages/HomePage";
@@ -12,16 +13,26 @@ import TopCategories from "./components/TopCategories";
 import ShoppingPage from "./pages/ShoppingPage";
 import CartPage from "./pages/CartPage";
 import PrivateRoute from "./components/auth/PrivateRoute";
-import OrderPage from "./pages/OrderPage";
+import AddressPage from "./pages/OrderPage";
 import OrderSuccess from "./pages/OrderSuccess";
 import PreviousOrders from "./pages/PreviousOrders";
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { checkAuthStatus } from "./store/actions/clientActions";
+
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkAuthStatus());
+  }, [dispatch]);
+
   return (
-    <Router>
+    <>
       <PageContent> 
         <Switch>
-        <Route path="/auth" component={AuthPage} />
+          <Route path="/auth" component={AuthPage} />
           <Route exact path="/" component={HomePage} />
           <Route path="/shop/:gender/:categoryName/:categoryId/:productNameSlug/:productId" component={ProductDetail} />
           <Route path="/contact" component={Contact} />
@@ -29,17 +40,14 @@ function App() {
           <Route exact path="/" component={TopCategories} />
           <Route exact path="/shop/:gender/:categoryName/:categoryId" component={ShoppingPage} />
           <Route path="/cart" component={CartPage} />
-          <PrivateRoute path="/address" component={OrderPage} />
-          <PrivateRoute 
-          path="/order" 
-          component={PreviousOrders} 
-        />
+          <PrivateRoute path="/address" component={AddressPage} />
+          <PrivateRoute path="/order" component={PreviousOrders} />
           <Route path="/order-success" component={OrderSuccess} />
         </Switch>
       </PageContent> 
       <ToastContainer />
-    </Router>
-  )
+    </>
+  );
 }
 
-export default App
+export default App;

@@ -20,21 +20,20 @@ const LoginPage = () => {
     const onSubmit = async (data) => {
         try {
             const result = await dispatch(loginUser(data, data.rememberMe));
-            console.log('Login result:', result); // Debug için
             
             if (result.success) {
-                toast.success('Successfully logged in!');
-                history.push('/'); // Direkt ana sayfaya yönlendir
+                toast.success('Başarıyla giriş yapıldı!');
+                history.push('/');
             } else {
+                toast.error(result.error || 'Giriş yapılamadı');
                 setError('email', {
                     type: 'manual',
                     message: result.error
                 });
-                toast.error(result.error);
             }
         } catch (error) {
-            console.error('Submit error:', error); // Debug için
-            toast.error('An unexpected error occurred');
+            console.error('Login error:', error);
+            toast.error('Bir hata oluştu. Lütfen tekrar deneyin.');
         }
     };
 

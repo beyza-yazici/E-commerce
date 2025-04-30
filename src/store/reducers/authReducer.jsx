@@ -1,57 +1,70 @@
 // src/store/reducers/authReducer.js
-import {
-    AUTH_START,
-    AUTH_SUCCESS,
-    AUTH_FAIL,
-    AUTH_LOGOUT
-  } from '../actions/authActions';
-  
-  const initialState = {
-    user: null,
-    isAuthenticated: false,
-    isLoading: true,
-    error: null
-  };
-  
-  const authReducer = (state = initialState, action) => {
-    switch (action.type) {
-      case AUTH_START:
-        return {
-          ...state,
-          isLoading: true,
-          error: null
-        };
-  
-      case AUTH_SUCCESS:
-        return {
-          ...state,
-          isAuthenticated: true,
-          user: action.payload,
-          isLoading: false,
-          error: null
-        };
-  
-      case AUTH_FAIL:
-        return {
-          ...state,
-          isAuthenticated: false,
-          user: null,
-          isLoading: false,
-          error: action.payload
-        };
-  
-      case AUTH_LOGOUT:
-        return {
-          ...state,
-          isAuthenticated: false,
-          user: null,
-          isLoading: false,
-          error: null
-        };
-  
-      default:
-        return state;
-    }
-  };
-  
-  export default authReducer;
+
+import { LOGIN_FAILURE, LOGIN_START, LOGIN_SUCCESS, LOGOUT, VERIFY_TOKEN_FAILURE, VERIFY_TOKEN_START, VERIFY_TOKEN_SUCCESS } from "../actions/actionTypes";
+
+
+const initialState = {
+  user: null,
+  token: null,
+  loading: false,
+  isLoading: true,
+  error: null,
+  isAuthenticated: false
+};
+
+export default function authReducer(state = initialState, action) {
+  switch (action.type) {
+    case LOGIN_START:
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    case LOGIN_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        user: action.payload.user,
+        token: action.payload.token,
+        isAuthenticated: true,
+        error: null
+      };
+    case LOGIN_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        user: null,
+        token: null,
+        isAuthenticated: false,
+        error: action.payload
+      };
+    case VERIFY_TOKEN_START:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case VERIFY_TOKEN_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        isAuthenticated: true,
+        user: action.payload.user,
+        token: action.payload.token
+      };
+    case VERIFY_TOKEN_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        isAuthenticated: false,
+        user: null,
+        token: null
+      };
+    case LOGOUT:
+      return {
+        ...initialState,
+        isLoading: false
+      };
+    default:
+      return state;
+  }
+}

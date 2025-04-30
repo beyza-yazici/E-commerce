@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosInstance from '../../axiosInstance';
 
 // redux/actions/orderActions.js
 export const FETCH_ORDERS_REQUEST = 'FETCH_ORDERS_REQUEST';
@@ -10,7 +10,7 @@ dispatch({ type: FETCH_ORDERS_REQUEST });
 
 try {
 const token = localStorage.getItem('token');
-const response = await axios.get('/https://workintech-fe-ecommerce.onrender.com/order', {
+const response = await axiosInstance.get('/order', {
 headers: {
 'Authorization': token
 }

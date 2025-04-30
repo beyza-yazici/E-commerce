@@ -3,14 +3,15 @@ import { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Menu, X, Search, ShoppingCart, Heart, User, LogOut, ShoppingBag, ChevronDown } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../store/actions/authActions';
 import md5 from 'md5';
 import ShopDropdown from '../components/ShopDropdown';
+import { logout } from '../store/actions/clientActions';
 
 const Header = () => {
   const history = useHistory();
+  const user = useSelector(state => state.client.user);
   const dispatch = useDispatch();
-  const { isAuthenticated, user, isLoading } = useSelector(state => state.auth);
+  const { isAuthenticated} = useSelector(state => state.auth);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const cart = useSelector(state => state.cart.cart);
   const [wishlistCount] = useState(0);
@@ -108,9 +109,7 @@ const Header = () => {
   };
 
   const renderUserInfo = () => {
-    if (isLoading) return null;
-
-    if (isAuthenticated && user) {
+    if(user) {
       return (
         <div className="flex items-center gap-4">
           <div className="relative profile-dropdown">

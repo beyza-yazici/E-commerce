@@ -5,12 +5,13 @@ import {
     FETCH_CATEGORIES_SUCCESS,
     FETCH_CATEGORIES_FAILURE,
   } from './actionTypes';
+  import axiosInstance from '../../axiosInstance';
   
   export const fetchCategories = () => {
     return async (dispatch) => {
       dispatch({ type: FETCH_CATEGORIES_REQUEST });
       try {
-        const response = await fetch('/categories');
+        const response = await axiosInstance.get('/categories');
         // eslint-disable-next-line no-unused-vars
         const data = await response.json();
         
